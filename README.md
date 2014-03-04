@@ -36,6 +36,8 @@ None.
 ## Example Playbook
 
     - hosts: server
+      vars_files:
+        - vars/main.yml
       roles:
         - { role: geerlingguy.firewall }
 
