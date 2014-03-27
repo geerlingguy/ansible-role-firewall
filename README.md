@@ -1,6 +1,6 @@
 # Ansible Role: Firewall (iptables)
 
-Installs a simple iptables-based firewall for RHEL/CentOS systems with `iptables` installed.
+Installs a simple iptables-based firewall for RHEL/CentOS or Debian/Ubunty systems.
 
 This firewall aims for simplicity over complexity, and only opens a few specific ports for incoming traffic (configurable through Ansible variables). If you have a rudimentary knowledge of `iptables` and/or firewalls in general, this role should be a good starting point for a secure system firewall.
 
