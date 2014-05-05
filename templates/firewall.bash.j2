@@ -56,7 +56,7 @@ iptables -A INPUT -p tcp -m udp --dport {{ port }} -j ACCEPT
 
 # Allowed hosts.
 {# Add a rule for each allowed host #}
-{% for host in firewall_allowed_host %}
+{% for host in firewall_allowed_hosts %}
 iptables -A INPUT -s {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }} -j ACCEPT
 {% endfor %}
 
