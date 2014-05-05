@@ -19,6 +19,7 @@ Available variables are listed below, along with default values (see `vars/main.
       - "80"
       ...
     firewall_allowed_udp_ports: []
+    firewall_allowed_hosts: []
 
 A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
@@ -47,6 +48,7 @@ None.
       - "22"
       - "25"
       - "80"
+    firewall_allowed_hosts: groups['appservers']
 
 ## TODO
 
