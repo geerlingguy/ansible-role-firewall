@@ -54,6 +54,12 @@ iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
 iptables -A INPUT -p tcp -m udp --dport {{ port }} -j ACCEPT
 {% endfor %}
 
+# Allowed hosts.
+{# Add a rule for each allowed host #}
+{% for host in firewall_allowed_host %}
+iptables -A INPUT -s {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }} -j ACCEPT
+{% endfor %}
+
 # Accept icmp ping requests.
 iptables -A INPUT -p icmp -j ACCEPT
 
