@@ -48,7 +48,7 @@ None.
       - "22"
       - "25"
       - "80"
-    firewall_allowed_hosts: groups['appservers']
+    firewall_allowed_hosts: {{ groups['appservers'] }}
 
 ## TODO
 
