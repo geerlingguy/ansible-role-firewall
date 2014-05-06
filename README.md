@@ -49,6 +49,8 @@ None.
       - "25"
       - "80"
     firewall_allowed_hosts: {{ groups['appservers'] }}
+    # here, for example, only your appservers will be able to reach your database ports
+    # note: you should still use a password on your database but this adds an another security layer
 
 ## TODO
 
