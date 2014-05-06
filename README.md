@@ -19,6 +19,7 @@ Available variables are listed below, along with default values (see `vars/main.
       - "80"
       ...
     firewall_allowed_udp_ports: []
+    firewall_allowed_hosts: []
 
 A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
@@ -47,6 +48,9 @@ None.
       - "22"
       - "25"
       - "80"
+    firewall_allowed_hosts: {{ groups['appservers'] }}
+    # here, for example, only your appservers will be able to reach your database ports
+    # note: you should still use a password on your database but this adds an another security layer
 
 ## TODO
 
@@ -60,3 +64,7 @@ MIT / BSD
 ## Author Information
 
 This role was created in 2014 by [Jeff Geerling](http://jeffgeerling.com/), author of [Ansible for DevOps](http://ansiblefordevops.com/).
+
+Other contributors:
+
+- [Robin Ricard](https://github.com/rricard)
