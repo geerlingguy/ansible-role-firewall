@@ -65,4 +65,4 @@ This role was created in 2014 by [Jeff Geerling](http://jeffgeerling.com/), auth
 
 Other contributors:
 
-- Robin Ricard
+- [Robin Ricard](https://github.com/rricard)
