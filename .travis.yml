@@ -31,6 +31,7 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Check if TCP port 9123 is open.
+  - sudo iptables -L -n
   - >
     sudo iptables -L -n
     | grep -q 'ACCEPT.+dpt:9123'
