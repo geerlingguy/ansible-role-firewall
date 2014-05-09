@@ -29,6 +29,10 @@ A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
 Forward `src` port to `dest` port, either TCP or UDP (respectively).
 
+    firewall_additional_rules: []
+
+Any additional (custom) rules to be added to the firewall (in the same format you would add them via command line, e.g. `iptables [rule]`).
+
 ## Dependencies
 
 None.
