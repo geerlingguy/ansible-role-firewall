@@ -74,8 +74,10 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 # Log EVERYTHING (ONLY for Debug).
 # iptables -A INPUT -j LOG
 
+{% if firewall_log_dropped_packets %}
 # Log other incoming requests (all of which are dropped) at 15/minute max.
 iptables -A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "Dropped by firewall: "
+{% endif %}
 
 # Drop all other traffic.
 iptables -A INPUT -j DROP
