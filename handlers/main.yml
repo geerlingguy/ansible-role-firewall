@@ -1,4 +1,7 @@
 ---
 - name: restart firewall
+  service: name=firewall state=restarted
+  notify: save iptables
+
+- name: save iptables
   command: service iptables save
-  command: service firewall restart
