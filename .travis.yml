@@ -1,4 +1,5 @@
 ---
+sudo: required
 language: python
 python: "2.7"
 
@@ -57,4 +58,7 @@ script:
       echo 'Status of stopped firewall is 3 - pass' && exit 0;
     else
       echo 'Status of stopped firewall is not 3 - fail' && exit 1;
-    fi 
+    fi
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
