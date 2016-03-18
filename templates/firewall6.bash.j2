@@ -39,7 +39,7 @@ ip6tables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
 {% endfor %}
 
 # Accept icmp ping requests.
-ip6tables -A INPUT -p icmp6 -j ACCEPT
+ip6tables -A INPUT -p icmpv6 -j ACCEPT
 
 # Allow NTP traffic for time synchronization.
 ip6tables -A OUTPUT -p udp --dport 123 -j ACCEPT
