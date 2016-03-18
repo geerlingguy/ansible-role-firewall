@@ -1,0 +1,49 @@
+#! /bin/sh
+# /etc/init.d/firewall6
+#
+# Firewall init script, to be used with /etc/firewall6.bash by Jeff Geerling.
+#
+# @author Jeff Geerling
+
+### BEGIN INIT INFO
+# Provides:          firewall6
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start firewall at boot time.
+# Description:       Enable the firewall.
+### END INIT INFO
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting firewall6."
+    /etc/firewall6.bash
+    ;;
+  stop)
+    echo "Stopping firewall6."
+    ip6tables -F
+    ;;
+  restart)
+    echo "Restarting firewall6."
+    /etc/firewall6.bash
+    ;;
+  status)
+    echo -e "`ip6tables -L -n`"
+    EXIT=4 # program or service status is unknown
+    NUMBER_OF_RULES=$(ip6tables-save | grep '^\-' | wc -l)
+    if [ 0 -eq $NUMBER_OF_RULES ]; then
+        EXIT=3 # program is not running
+    else
+        EXIT=0 # program is running or service is OK
+    fi
+    exit $EXIT
+    ;;
+  *)
+    echo "Usage: /etc/init.d/firewall6 {start|stop|status|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
