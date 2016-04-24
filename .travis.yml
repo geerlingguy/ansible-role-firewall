@@ -38,17 +38,41 @@ script:
     && (echo 'Port 9123 is open - pass' && exit 0)
     || (echo 'Port 9123 is not open - fail' && exit 1)
 
+  # Check if TCP port 8123 is open.
+  - >
+    sudo ip6tables -L -n
+    | grep -q "ACCEPT.*dpt:8123"
+    && (echo 'Port 9123 is open - pass' && exit 0)
+    || (echo 'Port 9123 is not open - fail' && exit 1)
+
+
   # Check running firewall has exit code 0
   - >
     sudo service firewall status
     && (echo 'Status of running firewall is 0 - pass' && exit 0)
     || (echo 'Status of running firewall is not 0 - fail' && exit 1)
 
+ # Check running firewall6 has exit code 0
+  - >
+    sudo service firewall6 status
+    && (echo 'Status of running firewall6 is 0 - pass' && exit 0)
+    || (echo 'Status of running firewall6 is not 0 - fail' && exit 1)
+
+
   # Stop firewall
   - >
     sudo service firewall stop
     && (echo 'Stopping firewall - pass' && exit 0)
     || (echo 'Stopping firewall - fail' && exit 1)
+
+
+
+  # Stop firewall6
+  - >
+    sudo service firewall6 stop
+    && (echo 'Stopping firewall6 - pass' && exit 0)
+    || (echo 'Stopping firewall6 - fail' && exit 1)
+
 
   # Check stopped firewall has exit code 3
   - >
@@ -58,6 +82,16 @@ script:
       echo 'Status of stopped firewall is 3 - pass' && exit 0;
     else
       echo 'Status of stopped firewall is not 3 - fail' && exit 1;
+    fi
+
+ # Check stopped firewall6 has exit code 3
+  - >
+    sudo service firewall6 status;
+    EXIT=$?;
+    if [ 3 -eq $EXIT ]; then
+      echo 'Status of stopped firewall6 is 3 - pass' && exit 0;
+    else
+      echo 'Status of stopped firewall6 is not 3 - fail' && exit 1;
     fi
 
 notifications:
