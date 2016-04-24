@@ -35,7 +35,7 @@ Forward `src` port to `dest` port, either TCP or UDP (respectively).
 
 Any additional (custom) rules to be added to the firewall (in the same format you would add them via command line, e.g. `iptables [rule]`).
 
-    firewall(6)_log_dropped_packets: true
+    firewall_log_dropped_packets: true
 
 Whether to log dropped packets to syslog (messages will be prefixed with "Dropped by firewall: ").
 
