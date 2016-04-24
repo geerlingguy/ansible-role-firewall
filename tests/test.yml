@@ -6,5 +6,11 @@
     - firewall_allowed_tcp_ports:
       - "9123"
 
+    - firewall6_allowed_tcp_ports:
+      - "8123"
+
+    - firewall_ipv6_enabled: true
+
+
   roles:
     - ansible-role-firewall

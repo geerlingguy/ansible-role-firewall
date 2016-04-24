@@ -9,3 +9,8 @@ firewall_forwarded_tcp_ports: []
 firewall_forwarded_udp_ports: []
 firewall_additional_rules: []
 firewall_log_dropped_packets: true
+firewall_ipv6_enabled: false
+firewall6_allowed_udp_ports: []
+firewall6_allowed_tcp_ports: []
+firewall6_additional_rules: []
+

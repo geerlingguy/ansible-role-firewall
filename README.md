@@ -15,23 +15,23 @@ None.
 ## Role Variables
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
-
-    firewall_allowed_tcp_ports:
+    firewall_ipv6_enabled: true enables ipv6 firewall
+    firewall(6)_allowed_tcp_ports:
       - "22"
       - "80"
       ...
-    firewall_allowed_udp_ports: []
+    firewall(6)_allowed_udp_ports: []
 
 A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
-    firewall_forwarded_tcp_ports:
+    firewall(6)_forwarded_tcp_ports:
       - { src: "22", dest: "2222" }
       - { src: "80", dest: "8080" }
-    firewall_forwarded_udp_ports: []
+    firewall(6)_forwarded_udp_ports: []
 
 Forward `src` port to `dest` port, either TCP or UDP (respectively).
 
-    firewall_additional_rules: []
+    firewall(6)_additional_rules: []
 
 Any additional (custom) rules to be added to the firewall (in the same format you would add them via command line, e.g. `iptables [rule]`).
 

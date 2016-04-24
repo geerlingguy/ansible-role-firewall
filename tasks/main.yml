@@ -19,3 +19,21 @@
 
 - name: Ensure the firewall is enabled and will start on boot.
   service: name=firewall state=started enabled=yes
+
+- name: Flush ip6tables the first time playbook runs.
+  command: ip6tables -F creates=/etc/init.d/firewall6
+  when: firewall_ipv6_enabled == true
+
+- name: Copy firewall6 script into place.
+  template: src=firewall6.bash.j2 dest=/etc/firewall6.bash owner=root group=root mode=0744
+  notify: restart firewall6
+  when: firewall_ipv6_enabled == true
+
+- name: Copy firewall6 init script into place.
+  template: src=firewall6.j2 dest=/etc/init.d/firewall6 owner=root group=root mode=0755
+  when: firewall_ipv6_enabled == true
+
+- name: Ensure the firewall6 is enabled and will start on boot.
+  service: name=firewall6 state=started enabled=yes
+  when: firewall_ipv6_enabled == true
+
