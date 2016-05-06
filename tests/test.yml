@@ -5,6 +5,10 @@
   vars:
     - firewall_allowed_tcp_ports:
       - "9123"
-
+    - firewall_conditionally_allowed_ports: 
+      - sources: ['1.2.3.0/24',  '9.8.7.6']
+        ports: [22]
+      - ansible_hosts: "{{ groups['all'] }}"
+        ports: [9999]
   roles:
     - ansible-role-firewall
