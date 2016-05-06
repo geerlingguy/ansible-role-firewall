@@ -39,6 +39,10 @@ Any additional (custom) rules to be added to the firewall (in the same format yo
 
 Whether to log dropped packets to syslog (messages will be prefixed with "Dropped by firewall: ").
 
+    firewall_conditionally_allowed_ports: []
+
+Ports to be opened to particular hosts. Either a source as defined by iptables (network name, a hostname, a network IP address (with /mask), or a plain IP address) or a group of ansible hosts. Ansible hosts will be converted to IP addresses. If protocol is not specified, tcp will be used.
+
 ## Dependencies
 
 None.
@@ -57,7 +61,16 @@ None.
       - "22"
       - "25"
       - "80"
-
+    firewall_conditionally_allowed_ports: 
+      - sources: ['1.1.2.0/24',  '1.2.2.2']
+        ports: [11111, 11000]
+        protocol: "udp"
+      - ansible_hosts: "{{ groups['all'] }}"
+        ports: [22222]
+      - ansible_hosts: "{{ groups['aaa'] + groups['bbb'] }}"
+        ports: [44444]
+        protocol: "udp"
+        
 ## TODO
 
   - Make outgoing ports more configurable.
