@@ -11,8 +11,8 @@
       - sources: [ '5.5.5.5' ]
         ports: [55555]
         protocol: "udp"
-      # - ansible_hosts: "{{ groups['all'] }}"
-      #   ports: [22222]
+      - ansible_hosts: "{{ groups['all'] }}"
+        ports: [22222]
       # - ansible_hosts: "{{ groups['a'] }}"
       #   ports: [33333]
       # - ansible_hosts: "{{ groups['a'] + groups['b'] }}"
