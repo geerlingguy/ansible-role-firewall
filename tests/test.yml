@@ -8,16 +8,16 @@
     - firewall_conditionally_allowed_ports: 
       - sources: ['1.1.2.0/24',  '1.2.2.2']
         ports: [11111, 11000]
-      - sources: [ '5.5.5.5' ]
-        ports: [55555]
         protocol: "udp"
       - ansible_hosts: "{{ groups['all'] }}"
         ports: [22222]
-      # - ansible_hosts: "{{ groups['a'] }}"
-      #   ports: [33333]
-      # - ansible_hosts: "{{ groups['a'] + groups['b'] }}"
-      #   ports: [44444]
-      #   protocol: "udp"
+      - ansible_hosts: "{{ groups['aaa'] }}"
+        ports: [33333]
+      - ansible_hosts: "{{ groups['aaa'] + groups['bbb'] }}"
+        ports: [44444]
+        protocol: "udp"
+      - sources: [ '5.5.5.5' ]
+        ports: [55555]
 
 
 

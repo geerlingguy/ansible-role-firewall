@@ -44,19 +44,43 @@ script:
     && (echo 'Port 9123 is open - pass' && exit 0)
     || (echo 'Port 9123 is not open - fail' && exit 1)
 
-  # Check if TCP port 11111 is open for 9.8.7.6.
+  # Check if TCP port 11111 is open for 1.2.2.2.
   - >
     sudo iptables -L -n
     | grep -q "ACCEPT.*1.2.2.2.*dpt:11111"
     && (echo 'Port 11111 is open - pass' && exit 0)
     || (echo 'Port 11111 is not open - fail' && exit 1)
 
-  # Check if TCP port 11111 is open for 9.8.7.6.
+  # Check if TCP port 11000 is open for 1.2.2.2.
   - >
     sudo iptables -L -n
-    | grep -q "ACCEPT.*1.2.2.2.*dpt:11111"
-    && (echo 'Port 11111 is open - pass' && exit 0)
-    || (echo 'Port 11111 is not open - fail' && exit 1)
+    | grep -q "ACCEPT.*1.2.2.2.*dpt:11000"
+    && (echo 'Port 11000 is open - pass' && exit 0)
+    || (echo 'Port 11000 is not open - fail' && exit 1)
+
+  # Check if tcp port 22222 is open 
+  - >
+    sudo iptables -L -n
+    | grep -q "ACCEPT.*tcp dpt:22222"
+    && (echo 'Port 22222 is open - pass' && exit 0)
+    || (echo 'Port 22222 is not open - fail' && exit 1)
+
+
+  # Check if tcp port 33333 is open 
+  - >
+    sudo iptables -L -n
+    | grep -q "ACCEPT.*tcp dpt:33333"
+    && (echo 'Port 33333 is open - pass' && exit 0)
+    || (echo 'Port 33333 is not open - fail' && exit 1)
+
+  # Check if udp port 44444 is open 
+  - >
+    sudo iptables -L -n
+    | grep -q "ACCEPT.*udp dpt:44444"
+    && (echo 'Port 44444 is open - pass' && exit 0)
+    || (echo 'Port 44444 is not open - fail' && exit 1)
+
+
   # Check if udp port 55555 is open for 5.5.5.5
   - >
     sudo iptables -L -n
