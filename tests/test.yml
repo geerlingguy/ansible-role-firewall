@@ -6,14 +6,18 @@
     - firewall_allowed_tcp_ports:
       - "9123"
     - firewall_conditionally_allowed_ports: 
-      - sources: ['1.2.3.0/24',  '9.8.7.6']
-        ports: [22]
-      - ansible_hosts: "{{ groups['all'] }}"
-        ports: [9999]
-      - ansible_hosts: "{{ groups['a'] }}"
-        ports: [7777]
-      - ansible_hosts: "{{ groups['a'] + groups['b'] }}"
-        ports: [7777]
+      - sources: ['1.1.2.0/24',  '1.2.2.2.']
+        ports: [11111, 11000]
+      - sources: [ '5.5.5.5' ]
+        ports: [55555]
+        protocol: "udp"
+      # - ansible_hosts: "{{ groups['all'] }}"
+      #   ports: [22222]
+      # - ansible_hosts: "{{ groups['a'] }}"
+      #   ports: [33333]
+      # - ansible_hosts: "{{ groups['a'] + groups['b'] }}"
+      #   ports: [44444]
+
 
   roles:
     - ansible-role-firewall

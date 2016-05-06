@@ -62,12 +62,12 @@ iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
 {% if rule.ansible_hosts is defined %}
 {% for host in rule['ansible_hosts'] %}
 {% for ipaddr in hostvars[host].ansible_all_ipv4_addresses %}
-iptables -I INPUT -p tcp --dport {{ port }} -s {{ ipaddr}} -j ACCEPT
+iptables -I INPUT -p {{ rule.protocol | default('tcp') }} --dport {{ port }} -s {{ ipaddr}} -j ACCEPT
 {% endfor %}
 {% endfor %}
 {% elif rule.sources is defined %}
 {% for source in rule['sources'] %}
-iptables -I INPUT -p tcp --dport {{ port }} -s {{ source }} -j ACCEPT
+iptables -I INPUT -p {{ rule.protocol | default('tcp') }} --dport {{ port }} -s {{ source }} -j ACCEPT
 {% endfor %}
 {% endif %}
 {% endfor %}
