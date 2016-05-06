@@ -10,5 +10,10 @@
         ports: [22]
       - ansible_hosts: "{{ groups['all'] }}"
         ports: [9999]
+      - ansible_hosts: "{{ groups['a'] }}"
+        ports: [7777]
+      - ansible_hosts: "{{ groups['a'] + groups['b'] }}"
+        ports: [7777]
+
   roles:
     - ansible-role-firewall

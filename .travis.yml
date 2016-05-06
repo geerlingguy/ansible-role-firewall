@@ -38,6 +38,13 @@ script:
     && (echo 'Port 9123 is open - pass' && exit 0)
     || (echo 'Port 9123 is not open - fail' && exit 1)
 
+  # Check if TCP port 22 is open for 9.8.7.6.
+  - >
+    sudo iptables -L -n
+    | grep -q "ACCEPT.*9.8.7.6.*dpt:22"
+    && (echo 'Port 22 is open - pass' && exit 0)
+    || (echo 'Port 22 is not open - fail' && exit 1)
+
   # Check running firewall has exit code 0
   - >
     sudo service firewall status
