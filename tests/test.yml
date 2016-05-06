@@ -18,8 +18,6 @@
         protocol: "udp"
       - sources: [ '5.5.5.5' ]
         ports: [55555]
-
-
-
+        protocol: "udp"
   roles:
     - ansible-role-firewall
