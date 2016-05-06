@@ -17,6 +17,8 @@
       #   ports: [33333]
       # - ansible_hosts: "{{ groups['a'] + groups['b'] }}"
       #   ports: [44444]
+      #   protocol: "udp"
+
 
 
   roles:
