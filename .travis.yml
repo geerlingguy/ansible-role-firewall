@@ -31,6 +31,12 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
+  # Check running firewall has exit code 0
+  - >
+    sudo service firewall status
+    && (echo 'Status of running firewall is 0 - pass' && exit 0)
+    || (echo 'Status of running firewall is not 0 - fail' && exit 1)
+
   # Check if TCP port 9123 is open.
   - >
     sudo iptables -L -n
@@ -38,18 +44,20 @@ script:
     && (echo 'Port 9123 is open - pass' && exit 0)
     || (echo 'Port 9123 is not open - fail' && exit 1)
 
-  # Check if TCP port 22 is open for 9.8.7.6.
+  # Check if TCP port 11111 is open for 9.8.7.6.
   - >
     sudo iptables -L -n
-    | grep -q "ACCEPT.*9.8.7.6.*dpt:22"
-    && (echo 'Port 22 is open - pass' && exit 0)
-    || (echo 'Port 22 is not open - fail' && exit 1)
+    | grep -q "ACCEPT.*1.2.2.2.*dpt:11111"
+    && (echo 'Port 11111 is open - pass' && exit 0)
+    || (echo 'Port 11111 is not open - fail' && exit 1)
 
-  # Check running firewall has exit code 0
+  # Check if udp port 55555 is open for 5.5.5.5
   - >
-    sudo service firewall status
-    && (echo 'Status of running firewall is 0 - pass' && exit 0)
-    || (echo 'Status of running firewall is not 0 - fail' && exit 1)
+    sudo iptables -L -n
+    | grep -q "ACCEPT.*5.5.5.5.*udp dpt:55555"
+    && (echo 'Port 55555 is open - pass' && exit 0)
+    || (echo 'Port 55555 is not open - fail' && exit 1)
+
 
   # Stop firewall
   - >

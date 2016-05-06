@@ -6,7 +6,7 @@
     - firewall_allowed_tcp_ports:
       - "9123"
     - firewall_conditionally_allowed_ports: 
-      - sources: ['1.1.2.0/24',  '1.2.2.2.']
+      - sources: ['1.1.2.0/24',  '1.2.2.2']
         ports: [11111, 11000]
       - sources: [ '5.5.5.5' ]
         ports: [55555]
