@@ -2,20 +2,22 @@
 - name: Ensure iptables is installed (RedHat).
   yum: pkg=iptables state=installed
   when: ansible_os_family == 'RedHat'
+  tags: [packages,iptables]
 
 - name: Ensure iptables is installed (Debian).
   apt: pkg=iptables state=installed
   when: ansible_os_family == 'Debian'
+  tags: [packages,iptables]
 
-- name: Flush iptables the first time playbook runs.
-  command: iptables -F creates=/etc/init.d/firewall
+- name: Push iptables rules.
+  template: src=iptables.conf.j2 dest={{ iptables_conf }} owner={{ ipatbles_conf_user }} group={{ ipatbles_conf_group }} mode={{ ipatbles_conf_mode|string }}
+  notify: load iptables rules
+  tags: [configuration,iptables]
 
-- name: Copy firewall script into place.
-  template: src=firewall.bash.j2 dest=/etc/firewall.bash owner=root group=root mode=0744
-  notify: restart firewall
+- name: Set rp_filter default setting (sysctl)
+  sysctl: name=net.ipv4.conf.default.rp_filter value={{ iptables_rp_filter_default }} state=present
+  tags: [configuration,iptables]
 
-- name: Copy firewall init script into place.
-  template: src=firewall.j2 dest=/etc/init.d/firewall owner=root group=root mode=0755
-
-- name: Ensure the firewall is enabled and will start on boot.
-  service: name=firewall state=started enabled=yes
+- name: Set rp_filter all setting (sysctl)
+  sysctl: name=net.ipv4.conf.all.rp_filter value={{ iptables_rp_filter_all }} state=present
+  tags: [configuration,iptables]
