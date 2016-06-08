@@ -1,11 +1,47 @@
 ---
-firewall_allowed_tcp_ports:
-  - "22"
-  - "25"
-  - "80"
-  - "443"
-firewall_allowed_udp_ports: []
-firewall_forwarded_tcp_ports: []
-firewall_forwarded_udp_ports: []
-firewall_additional_rules: []
-firewall_log_dropped_packets: true
+
+iptables_rp_filter_default: "0"
+iptables_rp_filter_all: "0"
+
+iptables_conf: "/etc/iptables.conf"
+ipatbles_conf_user: "root"
+ipatbles_conf_group: "root"
+ipatbles_conf_mode: "0744"
+
+# Mangle table
+iptables_mangle_prerouting_policy: "ACCEPT"
+iptables_mangle_input_policy: "ACCEPT"
+iptables_mangle_forward_policy: "ACCEPT"
+iptables_mangle_output_policy: "ACCEPT"
+iptables_mangle_postrouting_policy: "ACCEPT"
+
+iptables_mangle_rules: []
+
+# NAT table
+iptables_nat_prerouting_policy: "ACCEPT"
+iptables_nat_input_policy: "ACCEPT"
+iptables_nat_output_policy: "ACCEPT"
+iptables_nat_postrouting_policy: "ACCEPT"
+
+iptables_nat_rules: []
+
+# Filter table
+iptables_filter_input_policy: "ACCEPT"
+iptables_filter_forward_policy: "ACCEPT"
+iptables_filter_output_policy: "ACCEPT"
+
+iptables_filter_default_rules:
+  - comment: "Block null packets"
+    rule : "-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP"
+  - comment: "Block syn-flood attack"
+    rule: "-A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP"
+  - comment: "Block XMAS packets"
+    rule: "-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP"
+  - comment: "Drop multicat packets"
+    rule: "-A INPUT -d 224.0.0.0/8 -i {{ ansible_default_ipv4.interface }} -j DROP"
+
+iptables_filter_accept_from_lo: true
+iptables_filter_accept_established: true
+
+iptables_filter_rules: []
+iptables_filter_log_dropped_packets: false

@@ -2,9 +2,9 @@
 dependencies: []
 
 galaxy_info:
-  author: geerlingguy
+  author: cguillerminet
   description: Simple iptables firewall for most Unix-like systems.
-  company: "Midwestern Mac, LLC"
+  company: "ALG"
   license: "license (BSD, MIT)"
   min_ansible_version: 1.8
   platforms:

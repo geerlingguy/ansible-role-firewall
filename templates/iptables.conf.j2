@@ -1,0 +1,46 @@
+# {{ ansible_managed }}
+*mangle
+:PREROUTING {{ iptables_mangle_prerouting_policy|string }} [0:0]
+:INPUT {{ iptables_mangle_input_policy|string }} [0:0]
+:FORWARD {{ iptables_mangle_forward_policy|string }} [0:0]
+:OUTPUT {{ iptables_mangle_output_policy|string }} [0:0]
+:POSTROUTING {{ iptables_mangle_postrouting_policy|string }} [0:0]
+{% for rule in iptables_mangle_rules %}
+# {{ rule.comment }}
+{{ rule.rule }}
+{% endfor %}
+COMMIT
+*nat
+:PREROUTING {{ iptables_nat_prerouting_policy|string }} [0:0]
+:INPUT {{ iptables_nat_input_policy|string }} [0:0]
+:OUTPUT {{ iptables_nat_output_policy|string }} [0:0]
+:POSTROUTING {{ iptables_nat_postrouting_policy|string }} [0:0]
+{% for rule in iptables_nat_rules %}
+# {{ rule.comment }}
+{{ rule.rule }}
+{% endfor %}
+*filter
+:INPUT {{ iptables_filter_input_policy|string }} [0:0]
+:FORWARD {{ iptables_filter_forward_policy|string }} [0:0]
+:OUTPUT {{ iptables_filter_output_policy|string }} [0:0]
+{% for rule in iptables_filter_default_rules %}
+# {{ rule.comment }}
+{{ rule.rule }}
+{% endfor %}
+{% if iptables_filter_accept_from_lo %}
+# Accept traffic from loopback interface (localhost)
+-A INPUT -i lo -j ACCEPT
+{% endif %}
+{% if iptables_filter_accept_established %}
+# Accept established/related packets
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+{% endif %}
+{% for rule in iptables_filter_rules %}
+# {{ rule.comment }}
+{{ rule.rule }}
+{% endfor %}
+{% if iptables_filter_log_dropped_packets %}
+# Log other incoming requests (all of which are dropped) at 15/minute max.
+-A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "iptables drop: "
+{% endif %}
+COMMIT
