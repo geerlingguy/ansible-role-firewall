@@ -17,12 +17,18 @@ None.
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
     firewall_allowed_tcp_ports:
-      - "22"
-      - "80"
+      - number: '22'
+      - number: '80'
+        interfaces:
+          - eth0
+          - lo
+          . ...
       ...
     firewall_allowed_udp_ports: []
 
-A list of TCP or UDP ports (respectively) to open to incoming traffic.
+A list of TCP or UDP ports (respectively) to open to incoming traffic. Optional
+you could add a list of interface to every port. If you leave the interfaces
+undefined it will be open to all.
 
     firewall_forwarded_tcp_ports:
       - { src: "22", dest: "2222" }
@@ -54,9 +60,12 @@ None.
 *Inside `vars/main.yml`*:
 
     firewall_allowed_tcp_ports:
-      - "22"
-      - "25"
-      - "80"
+      - number: '22'
+      - number: '80'
+        interfaces:
+          - eth0
+          - lo
+          . ...
 
 ## TODO
 

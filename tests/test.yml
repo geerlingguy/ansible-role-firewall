@@ -4,7 +4,7 @@
 
   vars:
     - firewall_allowed_tcp_ports:
-      - "9123"
+      - number: '9123'
 
   roles:
     - ansible-role-firewall
