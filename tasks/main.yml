@@ -17,5 +17,5 @@
 - name: Copy firewall init script into place.
   template: src=firewall.j2 dest=/etc/init.d/firewall owner=root group=root mode=0755
 
-- name: Ensure the firewall is enabled and will start on boot.
-  service: name=firewall state=started enabled=yes
+- name: "Ensure the firewall is set to state: {{ firewall_state }} and will be enabled: {{ firewall_enabled }}"
+  service: name=firewall state={{ firewall_state }} enabled={{ firewall_enabled }}
