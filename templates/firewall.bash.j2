@@ -48,13 +48,28 @@ iptables -t nat -I OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIR
 {% endfor %}
 
 # Open ports.
-{# Add a rule for each open port #}
+{# Add a rule for each open tcp port #}
 {% for port in firewall_allowed_tcp_ports %}
-iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
+{% if port.interfaces is defined %}
+{% for interface in port.interfaces %}
+iptables -A INPUT -p tcp -m tcp --dport {{ port.number }} -i {{ interface }} -j ACCEPT
 {% endfor %}
+{% else %}
+iptables -A INPUT -p tcp -m tcp --dport {{ port.number }} -j ACCEPT
+{% endif %}
+{% endfor %}
+
+{# Add a rule for each open udp port #}
 {% for port in firewall_allowed_udp_ports %}
-iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
+{% if port.interfaces is defined %}
+{% for interface in port.interfaces %}
+iptables -A INPUT -p udp -m udp --dport {{ port.number }} -i {{ interface }} -j ACCEPT
 {% endfor %}
+{% else %}
+iptables -A INPUT -p udp -m udp --dport {{ port.number }} -j ACCEPT
+{% endif %}
+{% endfor %}
+
 
 # Accept icmp ping requests.
 iptables -A INPUT -p icmp -j ACCEPT
