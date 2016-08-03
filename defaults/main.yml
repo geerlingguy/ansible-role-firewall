@@ -5,6 +5,8 @@ firewall_allowed_tcp_ports:
   - number: '80'
   - number: '443'
 firewall_allowed_udp_ports: []
+firewall_enabled: yes
+firewall_state: 'started'
 firewall_forwarded_tcp_ports: []
 firewall_forwarded_udp_ports: []
 firewall_additional_rules: []
