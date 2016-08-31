@@ -5,5 +5,10 @@
     firewall_allowed_tcp_ports:
       - "9123"
 
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes
+      when: ansible_os_family == 'Debian'
+
   roles:
     - role_under_test
