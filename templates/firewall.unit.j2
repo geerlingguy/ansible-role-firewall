@@ -4,8 +4,8 @@ After=syslog.target network.target
 
 [Service]
 Type=oneshot
-ExecStart="/etc/firewall.bash"
-ExecStop="/sbin/iptables -F"
+ExecStart=/etc/firewall.bash
+ExecStop=/sbin/iptables -F
 RemainAfterExit=yes
 
 [Install]
