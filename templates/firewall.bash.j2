@@ -134,3 +134,8 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
   ip6tables -A INPUT -j DROP
 
 fi
+
+# Reload fail2ban rules
+if [ -e /usr/bin/fail2ban-client ]; then
+	/usr/bin/fail2ban-client reload
+fi
