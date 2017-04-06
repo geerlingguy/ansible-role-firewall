@@ -29,14 +29,26 @@ echo 1 > $filter
 done
 fi
 
-# Completely reset the firewall by removing all rules and chains.
+# Set the default rules
 iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
-iptables -t nat -F
-iptables -t mangle -F
-iptables -F
-iptables -X
+
+# Remove rules
+{% for chain in firewall_flush_nat_chains %}
+iptables -t nat -F{% if chain %}{{ chain }}{% endif %}
+{% endfor %}
+{% for chain in firewall_flush_mangle_chains %}
+iptables -t mangle -F{% if chain %}{{ chain }}{% endif %}
+{% endfor %}
+{% for chain in firewall_flush_filter_chains %}
+iptables -F{% if chain %}{{ chain }}{% endif %}
+{% endfor %}
+
+# Remove chains
+{% for chain in firewall_delete_chains %}
+iptables -X{% if chain %}{{ chain }}{% endif %}
+{% endfor %}
 
 # Accept traffic from loopback interface (localhost).
 iptables -A INPUT -i lo -j ACCEPT
@@ -91,9 +103,17 @@ iptables -A INPUT -j DROP
 # Configure IPv6 if ip6tables is present.
 if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 
-  # Remove all rules and chains.
-  ip6tables -F
-  ip6tables -X
+  # Set the default rules
+  ip6tables -P INPUT ACCEPT
+  ip6tables -P OUTPUT ACCEPT
+
+  # Remove rules and chains.
+  {% for chain in firewall_ip6_flush_filter_chains %}
+  ip6tables -F{% if chain %}{{ chain }}{% endif %}
+  {% endfor %}
+  {% for chain in firewall_ip6_delete_chains %}
+  ip6tables -X{% if chain %}{{ chain }}{% endif %}
+  {% endfor %}
 
   # Accept traffic from loopback interface (localhost).
   ip6tables -A INPUT -i lo -j ACCEPT
