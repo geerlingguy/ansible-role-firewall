@@ -16,6 +16,11 @@ None.
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
+    # Change this to "stopped" to disable the firewall
+    firewall_state: running
+
+Controls the desired state of the firewall.
+
     firewall_allowed_tcp_ports:
       - "22"
       - "80"

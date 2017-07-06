@@ -35,7 +35,10 @@
   when: "ansible_service_mgr == 'systemd'"
 
 - name: Ensure the firewall is enabled and will start on boot.
-  service: name=firewall state=started enabled=yes
+  service:
+    name: firewall
+    state: "{{ firewall_state }}"
+    enabled: yes
 
 - include: disable-other-firewalls.yml
   when: firewall_disable_firewalld or firewall_disable_ufw

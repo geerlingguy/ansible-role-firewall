@@ -1,4 +1,8 @@
 ---
+
+# Change this to "stopped" to disable the firewall
+firewall_state: running
+
 firewall_allowed_tcp_ports:
   - "22"
   - "25"
