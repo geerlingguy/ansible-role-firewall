@@ -1,6 +1,6 @@
 ---
 
-# Change this to "stopped" to disable the firewall
+# Change this to "stopped" to disable the firewall until next reboot
 firewall_state: running
 
 firewall_allowed_tcp_ports:
