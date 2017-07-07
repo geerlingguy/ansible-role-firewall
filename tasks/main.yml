@@ -46,7 +46,7 @@
     name: firewall
     state: stopped
     enabled: no
-  when: !firewall_enabled
+  when: not firewall_enabled
 
 - include: disable-other-firewalls.yml
   when: firewall_disable_firewalld or firewall_disable_ufw
