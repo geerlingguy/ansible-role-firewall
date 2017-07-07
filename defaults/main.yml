@@ -1,7 +1,7 @@
 ---
 
-# Change this to "stopped" to disable the firewall until next reboot
-firewall_state: running
+# Change this to "false" to stop and disable the firewall completely.
+firewall_enabled: true
 
 firewall_allowed_tcp_ports:
   - "22"

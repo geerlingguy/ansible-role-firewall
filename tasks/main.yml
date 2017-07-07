@@ -37,8 +37,16 @@
 - name: Ensure the firewall is enabled and will start on boot.
   service:
     name: firewall
-    state: "{{ firewall_state }}"
+    state: started
     enabled: yes
+  when: firewall_enabled
+
+- name: Ensure the firewall is disabled and will not start on boot.
+  service:
+    name: firewall
+    state: stopped
+    enabled: no
+  when: !firewall_enabled
 
 - include: disable-other-firewalls.yml
   when: firewall_disable_firewalld or firewall_disable_ufw
