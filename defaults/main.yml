@@ -1,7 +1,10 @@
 ---
 
-# Change this to "false" to stop and disable the firewall completely.
-firewall_enabled: true
+# Change this to "stopped" to stop the firewall.
+firewall_state: started
+
+# Change this to "false" to disable the firewall from starting on boot.
+firewall_enabled_at_boot: true
 
 firewall_allowed_tcp_ports:
   - "22"
