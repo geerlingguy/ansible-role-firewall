@@ -16,13 +16,10 @@ None.
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-    # Change this to "stopped" to stop the firewall.
     firewall_state: started
-    
-    # Change this to "false" to disable the firewall from starting on boot.
     firewall_enabled_at_boot: true
 
-Controls if the firewall is running and enabled.
+Controls the state of the firewall service; whether it should be running (`firewall_state`) and/or enabled on system boot (`firewall_enabled_at_boot`).
 
     firewall_allowed_tcp_ports:
       - "22"
