@@ -44,7 +44,7 @@ Any additional (custom) rules to be added to the firewall (in the same format yo
     # Allow only the IP 167.89.89.18 to access port 4949 (Munin).
     firewall_additional_rules:
       - "iptables -A INPUT -p tcp --dport 4949 -s 167.89.89.18 -j ACCEPT"
-    
+
     # Allow only the IP 214.192.48.21 to access port 3306 (MySQL).
     firewall_additional_rules:
       - "iptables -A INPUT -p tcp --dport 3306 -s 214.192.48.21 -j ACCEPT"
