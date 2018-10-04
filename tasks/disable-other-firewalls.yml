@@ -2,20 +2,20 @@
 - name: Check if firewalld package is installed (on RHEL).
   command: yum list installed firewalld
   args:
-    warn: no
+    warn: false
   register: firewalld_installed
   ignore_errors: true
   changed_when: false
   when:
     - ansible_os_family == "RedHat"
     - firewall_disable_firewalld
-  check_mode: no
+  check_mode: false
 
 - name: Disable the firewalld service (on RHEL, if configured).
   service:
     name: firewalld
     state: stopped
-    enabled: no
+    enabled: false
   when:
     - ansible_os_family == "RedHat"
     - firewall_disable_firewalld
@@ -24,20 +24,20 @@
 - name: Check if ufw package is installed (on Ubuntu).
   command: service ufw status
   args:
-    warn: no
+    warn: false
   register: ufw_installed
   ignore_errors: true
   changed_when: false
   when:
     - ansible_distribution == "Ubuntu"
     - firewall_disable_ufw
-  check_mode: no
+  check_mode: false
 
 - name: Disable the ufw firewall (on Ubuntu, if configured).
   service:
     name: ufw
     state: stopped
-    enabled: no
+    enabled: false
   when:
     - ansible_distribution == "Ubuntu"
     - firewall_disable_ufw
@@ -46,20 +46,20 @@
 - name: Check if ufw package is installed (on Archlinux).
   command: pacman -Q ufw
   args:
-    warn: no
+    warn: false
   register: ufw_installed
   ignore_errors: true
   changed_when: false
   when:
     - ansible_distribution == "Archlinux"
     - firewall_disable_ufw
-  check_mode: no
+  check_mode: false
 
 - name: Disable the ufw firewall (on Archlinux, if configured).
   service:
     name: ufw
     state: stopped
-    enabled: no
+    enabled: false
   when:
     - ansible_distribution == "Archlinux"
     - firewall_disable_ufw
