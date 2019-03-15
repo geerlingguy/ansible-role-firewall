@@ -49,6 +49,10 @@ Any additional (custom) rules to be added to the firewall (in the same format yo
     firewall_additional_rules:
       - "iptables -A INPUT -p tcp --dport 3306 -s 214.192.48.21 -j ACCEPT"
 
+Allow incoming icmp (ping) traffic.
+
+    firewall_allow_incoming_icmp: true
+
 See [Iptables Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands) for more examples.
 
     firewall_log_dropped_packets: true

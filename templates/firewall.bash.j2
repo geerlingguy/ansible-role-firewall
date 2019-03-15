@@ -62,7 +62,9 @@ iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
 {% endfor %}
 
 # Accept icmp ping requests.
+{% if firewall_allow_incoming_icmp %}
 iptables -A INPUT -p icmp -j ACCEPT
+{% endif %}
 
 # Allow NTP traffic for time synchronization.
 iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
@@ -108,7 +110,9 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
   {% endfor %}
 
   # Accept icmp ping requests.
-  ip6tables -A INPUT -p icmp -j ACCEPT
+  {% if firewall_allow_incoming_icmp %}
+  ip6tables -A INPUT -p icmpv6 -j ACCEPT
+  {% endif %}
 
   # Allow NTP traffic for time synchronization.
   ip6tables -A OUTPUT -p udp --dport 123 -j ACCEPT
