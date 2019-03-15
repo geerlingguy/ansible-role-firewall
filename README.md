@@ -53,6 +53,10 @@ Allow incoming icmp (ping) traffic.
 
     firewall_allow_incoming_icmp: true
 
+Allow incoming/outgoing ntp traffic.
+
+    firewall_allow_ntp: true
+
 See [Iptables Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands) for more examples.
 
     firewall_log_dropped_packets: true

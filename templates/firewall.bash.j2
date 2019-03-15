@@ -67,8 +67,10 @@ iptables -A INPUT -p icmp -j ACCEPT
 {% endif %}
 
 # Allow NTP traffic for time synchronization.
+{% if firewall_allow_ntp %}
 iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
 iptables -A INPUT -p udp --sport 123 -j ACCEPT
+{% endif %}
 
 # Additional custom rules.
 {% for rule in firewall_additional_rules %}
@@ -115,8 +117,10 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
   {% endif %}
 
   # Allow NTP traffic for time synchronization.
+  {% if firewall_allow_ntp %}
   ip6tables -A OUTPUT -p udp --dport 123 -j ACCEPT
   ip6tables -A INPUT -p udp --sport 123 -j ACCEPT
+  {% endif %}
 
   # Additional custom rules.
   {% for rule in firewall_ip6_additional_rules %}

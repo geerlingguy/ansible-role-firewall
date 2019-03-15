@@ -13,6 +13,7 @@ firewall_forwarded_udp_ports: []
 firewall_additional_rules: []
 firewall_ip6_additional_rules: []
 firewall_allow_incoming_icmp: true
+firewall_allow_ntp: true
 firewall_log_dropped_packets: true
 
 # Set to true to ensure other firewall management software is disabled.
