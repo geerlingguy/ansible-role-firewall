@@ -61,6 +61,13 @@ See [Iptables Essentials: Common Firewall Rules and Commands](https://www.digita
 
     firewall_log_dropped_packets: true
 
+Configure default policies for INPUT/FORWARD/OUTPUT chains in the filter table.  
+See [mcastelino's iptables cheat sheet](https://gist.github.com/mcastelino/c38e71eb0809d1427a6650d843c42ac2#targets-1) for valid targets.
+
+    firewall_input_filter_policy: DROP
+    firewall_forward_filter_policy: ACCEPT
+    firewall_output_filter_policy: ACCEPT
+
 Whether to log dropped packets to syslog (messages will be prefixed with "Dropped by firewall: ").
 
     firewall_disable_firewalld: false

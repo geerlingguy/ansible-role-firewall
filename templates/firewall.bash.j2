@@ -88,8 +88,14 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "Dropped by firewall: "
 {% endif %}
 
-# Drop all other traffic.
-iptables -A INPUT -j DROP
+# Configure default behavior for all other incoming traffic.
+iptables -P INPUT {{ firewall_input_filter_policy }}
+
+# Configure default behavior for all other forwarded traffic.
+iptables -P FORWARD {{ firewall_forward_filter_policy }}
+
+# Configure default behavior for all other outgoing traffic.
+iptables -P OUTPUT {{ firewall_output_filter_policy }}
 
 
 # Configure IPv6 if ip6tables is present.
@@ -138,7 +144,13 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
   ip6tables -A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "Dropped by firewall: "
   {% endif %}
 
-  # Drop all other traffic.
-  ip6tables -A INPUT -j DROP
+  # Configure default behavior for all other incoming traffic.
+  ip6tables -P INPUT {{ firewall_input_filter_policy }}
+
+  # Configure default behavior for all other forwarded traffic.
+  ip6tables -P FORWARD {{ firewall_forward_filter_policy }}
+
+  # Configure default behavior for all other outgoing traffic.
+  ip6tables -P OUTPUT {{ firewall_output_filter_policy }}
 
 fi

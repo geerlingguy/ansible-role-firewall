@@ -15,6 +15,9 @@ firewall_ip6_additional_rules: []
 firewall_allow_incoming_icmp: true
 firewall_allow_ntp: true
 firewall_log_dropped_packets: true
+firewall_input_filter_policy: DROP
+firewall_forward_filter_policy: ACCEPT
+firewall_output_filter_policy: ACCEPT
 
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
