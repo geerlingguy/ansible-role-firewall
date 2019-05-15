@@ -2,6 +2,21 @@
 - name: Ensure iptables is present.
   package: name=iptables state=present
 
+- name: Reset INPUT built-in chain default policy the first time playbook runs.
+  command: >
+    iptables -P INPUT ACCEPT
+    creates=/etc/firewall.bash
+
+- name: Reset OUTPUT built-in chain default policy the first time playbook runs.
+  command: >
+    iptables -P OUTPUT ACCEPT
+    creates=/etc/firewall.bash
+
+- name: Reset FORWARD built-in chain default policy the first time playbook runs.
+  command: >
+    iptables -P FORWARD ACCEPT
+    creates=/etc/firewall.bash
+
 - name: Flush iptables the first time playbook runs.
   command: >
     iptables -F
