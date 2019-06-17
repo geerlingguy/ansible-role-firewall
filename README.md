@@ -49,6 +49,26 @@ Any additional (custom) rules to be added to the firewall (in the same format yo
     firewall_additional_rules:
       - "iptables -A INPUT -p tcp --dport 3306 -s 214.192.48.21 -j ACCEPT"
 
+*The variables `firewall_additional_rules` and`firewall_ipv6_additional_rules` supports a list or a list of lists as value. This adds the possibility of passing several additional rules
+from several group vars where the host belongs to. For example in `groups_vars/all.yml` we can have:
+  ```yaml
+    firewall_additional_rules_all:
+      - iptables A INPUT -s 123.123.123.123/32 -j ACCEPT -m comment --comment 'Office'"
+  ```
+and then from the other group vars:
+  ```yaml
+    firewall_additional_rules_databases:
+      - iptables A INPUT -s 111.111.111.111/32 -j ACCEPT -m comment --comment 'Webservers' "
+  ```
+and finally from the playbook we would have something like:
+  ```yaml
+    firewall_additional_rules:
+      - "{{ firewall_additional_rules_all }}"
+      - "{{ firewall_additional_rules_databases }}"
+  ```
+As you can see, this gives the possiblity of set custom iptables rules from different levels.
+
+
 See [Iptables Essentials: Common Firewall Rules and Commands](https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands) for more examples.
 
     firewall_log_dropped_packets: true
