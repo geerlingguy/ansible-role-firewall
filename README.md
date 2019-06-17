@@ -60,7 +60,9 @@ and then from the other group vars:
     firewall_additional_rules_databases:
       - iptables A INPUT -s 111.111.111.111/32 -j ACCEPT -m comment --comment 'Webservers' "
   ```
-and finally from the playbook we would have something like:
+and finally from an hypothetical playbook for provisioning a database node we would have something
+
+
   ```yaml
     firewall_additional_rules:
       - "{{ firewall_additional_rules_all }}"
