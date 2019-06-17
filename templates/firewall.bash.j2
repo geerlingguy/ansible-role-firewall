@@ -70,7 +70,13 @@ iptables -A INPUT -p udp --sport 123 -j ACCEPT
 
 # Additional custom rules.
 {% for rule in firewall_additional_rules %}
+{% if rule is iterable and rule is not string %}
+{% for sub_rule in rule %}
+{{ sub_rule }}
+{% endfor %}
+{% else %}
 {{ rule }}
+{% endif %}
 {% endfor %}
 
 # Allow established connections:
@@ -116,7 +122,13 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 
   # Additional custom rules.
   {% for rule in firewall_ip6_additional_rules %}
+  {% if rule is iterable and rule is not string %}
+  {% for sub_rule in rule %}
+  {{ sub_rule }}
+  {% endfor %}
+  {% else %}
   {{ rule }}
+  {% endif %}
   {% endfor %}
 
   # Allow established connections:
