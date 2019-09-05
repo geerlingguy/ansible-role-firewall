@@ -5,7 +5,18 @@
 
   vars:
     firewall_allowed_tcp_ports:
-      - "9123"
+      - "1234"
+    firewall_allowed_udp_ports:
+      - "5678"
+    firewall_forwarded_tcp_ports:
+      - src: 22
+        dest: 2222
+    firewall_forwarded_udp_ports:
+      - src: 33
+        dest: 3333
+    firewall_additional_rules:
+      - "iptables -A INPUT -p tcp --dport 4949 -s 192.168.1.1 -j ACCEPT"
+
 
   pre_tasks:
     - name: Update apt cache.
@@ -14,4 +25,4 @@
       changed_when: false
 
   roles:
-    - role: geerlingguy.firewall
+    - role: schoeppe.firewall
