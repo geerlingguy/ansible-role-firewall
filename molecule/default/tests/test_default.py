@@ -16,7 +16,7 @@ def test_filter_rules(host, rule):
     filter_input = host.iptables.rules("filter")
     if host.system_info.distribution.lower() == "centos":
         # fix for trailing slashes in iptables rules output
-        filter_input = map(unicode.strip, filter_input) 
+        filter_input = map(unicode.strip, filter_input)
     assert rule in filter_input
 
 
@@ -24,7 +24,7 @@ def test_filter_last_input_drop(host):
     filter_input = host.iptables.rules("filter", "INPUT")
     if host.system_info.distribution.lower() == "centos":
         # fix for trailing slashes in iptables rules output
-        filter_input = map(unicode.strip, filter_input) 
+        filter_input = map(unicode.strip, filter_input)
     assert filter_input[-1] == "-A INPUT -j DROP"
 
 
@@ -38,5 +38,5 @@ def test_nat_rules(host, rule):
     nat = host.iptables.rules("nat")
     if host.system_info.distribution.lower() == "centos":
         # fix for trailing slashes in iptables rules output
-        nat = map(unicode.strip, nat) 
+        nat = map(unicode.strip, nat)
     assert rule in nat
