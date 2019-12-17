@@ -6,6 +6,9 @@ After=syslog.target network.target
 Type=oneshot
 ExecStart=/etc/firewall.bash
 ExecStop=/sbin/iptables -F
+{% if firewall_enable_ipv6 %}
+ExecStop=/sbin/ip6tables -F
+{% endif %}
 RemainAfterExit=yes
 
 [Install]
