@@ -4,9 +4,8 @@ dependency:
 driver:
   name: docker
 lint:
-  name: yamllint
-  options:
-    config-file: molecule/default/yaml-lint.yml
+  yamllint .
+  ansible-lint
 platforms:
   - name: instance
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
@@ -17,10 +16,8 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 scenario:
   name: default
   test_sequence:
@@ -36,7 +33,3 @@ scenario:
     - side_effect
     - verify
     - destroy
-verifier:
-  name: testinfra
-  lint:
-    name: flake8
