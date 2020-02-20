@@ -3,7 +3,7 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
+lint: |
   yamllint .
   ansible-lint
 platforms:
@@ -19,7 +19,6 @@ provisioner:
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 scenario:
-  name: default
   test_sequence:
     - lint
     - destroy
