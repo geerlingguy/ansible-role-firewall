@@ -2,6 +2,7 @@
 dependencies: []
 
 galaxy_info:
+  role_name: firewall
   author: geerlingguy
   description: Simple iptables firewall for most Unix-like systems.
   company: "Midwestern Mac, LLC"
