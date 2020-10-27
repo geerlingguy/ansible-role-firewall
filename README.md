@@ -1,6 +1,6 @@
 # Ansible Role: Firewall (iptables)
 
-[![Build Status](https://travis-ci.org/geerlingguy/ansible-role-firewall.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-role-firewall)
+[![Build Status](https://travis-ci.com/geerlingguy/ansible-role-firewall.svg?branch=master)](https://travis-ci.com/geerlingguy/ansible-role-firewall)
 
 Installs an iptables-based firewall for Linux. Supports both IPv4 (`iptables`) and IPv6 (`ip6tables`).
 
