@@ -3,6 +3,7 @@
 #
 # This file should be located at /etc/firewall.bash, and is meant to work with
 # the `geerlingguy.firewall` Ansible role.
+# Extended by h2-invent
 #
 # Common port reference:
 #   22: SSH
@@ -25,9 +26,9 @@ done
 fi
 
 # Set the default rules.
-iptables -P INPUT ACCEPT
-iptables -P FORWARD ACCEPT
-iptables -P OUTPUT ACCEPT
+iptables -P INPUT {{ h2_firewall_default_input }}
+iptables -P FORWARD {{ h2_firewall_default_forward }}
+iptables -P OUTPUT {{ h2_firewall_default_output }}
 
 {% if firewall_flush_rules_and_chains %}
 # Remove all rules and chains.
@@ -38,7 +39,7 @@ iptables -X
 {% endif %}
 
 # Accept traffic from loopback interface (localhost).
-iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -i lo -j ACCEPT -m comment --comment "Allow all on lo"
 
 # Forwarded ports.
 {# Add a rule for each forwarded port #}
@@ -54,18 +55,22 @@ iptables -t nat -I OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIR
 # Open ports.
 {# Add a rule for each open port #}
 {% for port in firewall_allowed_tcp_ports %}
-iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT -m comment --comment "Open Port {{ port }} tcp on all interfaces"
 {% endfor %}
 {% for port in firewall_allowed_udp_ports %}
-iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
+iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT -m comment --comment "Open Port {{ port }} udp on all interfaces"
 {% endfor %}
 
+{% if h2_firewall_icmp_enable|bool %}
 # Accept icmp ping requests.
-iptables -A INPUT -p icmp -j ACCEPT
+iptables -A INPUT -p icmp -j ACCEPT -m comment --comment "Allow ping with icmp on all interfaces"
+{% endif %}
 
+{% if h2_firewall_ntp_enable|bool %}
 # Allow NTP traffic for time synchronization.
-iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
-iptables -A INPUT -p udp --sport 123 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 123 {% if h2_firewall_ntp_interface %}-i {{ h2_firewall_ntp_interface }} {% endif %} -j ACCEPT -m comment --comment "Allow NTP on {{ h2_firewall_ntp_interface }}"
+iptables -A INPUT -p udp --sport 123 {% if h2_firewall_ntp_interface %}-i {{ h2_firewall_ntp_interface }} {% endif %} -j ACCEPT -m comment --comment "Allow NTP on {{ h2_firewall_ntp_interface }}"
+{% endif %}
 
 # Additional custom rules.
 {% for rule in firewall_additional_rules %}
@@ -83,8 +88,10 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "Dropped by firewall: "
 {% endif %}
 
+{% if h2_firewall_drop_all|bool %}
 # Drop all other traffic.
 iptables -A INPUT -j DROP
+{% endif %}
 
 {% if firewall_enable_ipv6 %}
 # Configure IPv6 if ip6tables is present.

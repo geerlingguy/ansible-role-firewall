@@ -13,9 +13,19 @@ firewall_allowed_udp_ports: []
 firewall_forwarded_tcp_ports: []
 firewall_forwarded_udp_ports: []
 firewall_additional_rules: []
-firewall_enable_ipv6: true
+firewall_enable_ipv6: false
 firewall_ip6_additional_rules: []
 firewall_log_dropped_packets: true
+
+
+h2_firewall_default_input: ACCEPT
+h2_firewall_default_forward: ACCEPT
+h2_firewall_default_output: ACCEPT
+
+h2_firewall_icmp_enable: true
+h2_firewall_ntp_enable: true
+h2_firewall_ntp_interface: eth1
+h2_firewall_drop_all: true
 
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
