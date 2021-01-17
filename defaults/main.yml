@@ -15,14 +15,14 @@ firewall_ip6_additional_rules: []
 firewall_log_dropped_packets: true
 
 
-h2_firewall_default_input: ACCEPT
-h2_firewall_default_forward: ACCEPT
-h2_firewall_default_output: ACCEPT
+firewall_default_input: ACCEPT
+firewall_default_forward: ACCEPT
+firewall_default_output: ACCEPT
 
-h2_firewall_icmp_enable: true
-h2_firewall_ntp_enable: true
-h2_firewall_ntp_interface: eth1
-h2_firewall_drop_all: true
+firewall_icmp_enable: true
+firewall_ntp_enable: true
+firewall_ntp_interface: eth1
+firewall_drop_all: true
 
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
