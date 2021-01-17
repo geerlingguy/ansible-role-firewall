@@ -6,9 +6,6 @@ firewall_flush_rules_and_chains: true
 
 firewall_allowed_tcp_ports:
   - "22"
-  - "25"
-  - "80"
-  - "443"
 firewall_allowed_udp_ports: []
 firewall_forwarded_tcp_ports: []
 firewall_forwarded_udp_ports: []
@@ -16,6 +13,16 @@ firewall_additional_rules: []
 firewall_enable_ipv6: true
 firewall_ip6_additional_rules: []
 firewall_log_dropped_packets: true
+
+
+firewall_default_input: ACCEPT
+firewall_default_forward: ACCEPT
+firewall_default_output: ACCEPT
+
+firewall_icmp_enable: true
+firewall_ntp_enable: true
+firewall_ntp_interface: eth1
+firewall_drop_all: true
 
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
