@@ -9,7 +9,7 @@
 
 - name: Copy firewall script into place.
   template:
-    src: firewall.bash.j2
+    src: "{{ firewall_bash_template | default('firewall.bash.j2') }}"
     dest: /etc/firewall.bash
     owner: root
     group: root
