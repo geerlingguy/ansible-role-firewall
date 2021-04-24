@@ -24,6 +24,8 @@ firewall_ntp_enable: true
 firewall_ntp_interface: eth1
 firewall_drop_all: true
 
+firewall_drop_all_output_open_established_releated: true
+
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
 firewall_disable_ufw: false
