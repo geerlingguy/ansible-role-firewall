@@ -1,4 +1,8 @@
 ---
+firewall_default_input: ACCEPT
+firewall_default_forward: ACCEPT
+firewall_default_output: ACCEPT
+
 firewall_state: started
 firewall_enabled_at_boot: true
 
@@ -18,14 +22,13 @@ firewall_enable_ipv6: true
 firewall_ip6_additional_rules: []
 firewall_log_dropped_packets: true
 
-
-firewall_default_input: ACCEPT
-firewall_default_forward: ACCEPT
-firewall_default_output: ACCEPT
-
 firewall_icmp_enable: true
 firewall_ntp_enable: true
 firewall_ntp_interface: eth0
+
+firewall_dns_enable: true
+firewall_dns_interface: eth0
+
 firewall_drop_all: true
 
 firewall_drop_all_output_open_established_releated: true

@@ -84,12 +84,19 @@ iptables -A OUTPUT -p udp -m udp --dport {{ port }} -j ACCEPT -m state --state N
 {% if firewall_icmp_enable|bool %}
 # Accept icmp ping requests.
 iptables -A INPUT -p icmp -j ACCEPT -m comment --comment "Allow ping with icmp on all interfaces"
+{% if firewall_drop_all_output_open_established_releated|bool and firewall_default_output == 'DROP' %}
+iptables -A OUTPUT -p icmp -j ACCEPT -m comment --comment "Allow ping with icmp on all interfaces"
+{% endif %}
 {% endif %}
 
 {% if firewall_ntp_enable|bool %}
 # Allow NTP traffic for time synchronization.
 iptables -A OUTPUT -p udp --dport 123 {% if firewall_ntp_interface %}-o {{ firewall_ntp_interface }} {% endif %} -j ACCEPT -m comment --comment "Allow NTP on {{ firewall_ntp_interface }}"
-iptables -A INPUT -p udp --sport 123 {% if firewall_ntp_interface %}-i {{ firewall_ntp_interface }} {% endif %} -j ACCEPT -m comment --comment "Allow NTP on {{ firewall_ntp_interface }}"
+{% endif %}
+
+{% if firewall_dns_enable|bool %}
+# Allow DNS traffic.
+iptables -A OUTPUT -p udp --dport 53 {% if firewall_dns_interface %}-o {{ firewall_dns_interface }} {% endif %} -j ACCEPT -m comment --comment "Allow DNS on {{ firewall_dns_interface }}"
 {% endif %}
 
 # Additional custom rules.
