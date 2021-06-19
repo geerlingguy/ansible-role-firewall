@@ -40,9 +40,7 @@ iptables -X
 
 # Accept traffic from loopback interface (localhost).
 iptables -A INPUT -i lo -j ACCEPT -m comment --comment "Allow all on lo"
-{% if firewall_drop_all_output_open_established_releated|bool and firewall_default_output == 'DROP' %}
 iptables -A OUTPUT -o lo -j ACCEPT -m comment --comment "Allow all on lo"
-{% endif %}
 
 # Forwarded ports.
 {# Add a rule for each forwarded port #}
@@ -59,18 +57,9 @@ iptables -t nat -I OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIR
 {# Add a rule for each open port #}
 {% for port in firewall_allowed_tcp_ports %}
 iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT -m comment --comment "Open Port {{ port }} tcp on all interfaces"
-{% if firewall_drop_all_output_open_established_releated|bool and firewall_default_output == 'DROP' %}
-iptables -A OUTPUT -p tcp -m tcp --sport {{ port }} -j ACCEPT -m state --state ESTABLISHED,RELATED -m comment --comment "Open Port {{ port }} tcp on all interfaces"
-{% endif %}
-
 {% endfor %}
-
 {% for port in firewall_allowed_udp_ports %}
 iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT -m comment --comment "Open Port {{ port }} udp on all interfaces"
-{% if firewall_drop_all_output_open_established_releated|bool and firewall_default_output == 'DROP' %}
-iptables -A OUTPUT -p udp -m udp --sport {{ port }} -j ACCEPT -m state --state ESTABLISHED,RELATED -m comment --comment "Open Port {{ port }} udp on all interfaces"
-{% endif %}
-
 {% endfor %}
 
 {# Add a rule for each open port #}
@@ -84,9 +73,7 @@ iptables -A OUTPUT -p udp -m udp --dport {{ port }} -j ACCEPT -m state --state N
 {% if firewall_icmp_enable|bool %}
 # Accept icmp ping requests.
 iptables -A INPUT -p icmp -j ACCEPT -m comment --comment "Allow ping with icmp on all interfaces"
-{% if firewall_drop_all_output_open_established_releated|bool and firewall_default_output == 'DROP' %}
 iptables -A OUTPUT -p icmp -j ACCEPT -m comment --comment "Allow ping with icmp on all interfaces"
-{% endif %}
 {% endif %}
 
 {% if firewall_ntp_enable|bool %}
@@ -105,7 +92,10 @@ iptables -A OUTPUT -p udp --dport 53 {% if firewall_dns_interface %}-o {{ firewa
 {% endfor %}
 
 # Allow established connections:
-iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT  -m comment --comment "Accept all INPUT ESTABLISHED and RELATED connections"
+{% if firewall_drop_all_output_open_established_releated|bool and firewall_default_output == 'DROP' %}
+iptables -A OUTPUT -j ACCEPT -m state --state ESTABLISHED,RELATED -m comment --comment "Accept all OUTPUT ESTABLISHED and RELATED connections"
+{% endif %}
 
 # Log EVERYTHING (ONLY for Debug).
 # iptables -A INPUT -j LOG
