@@ -86,7 +86,7 @@ iptables -A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "
 # Drop all other traffic.
 iptables -A INPUT -j DROP
 
-iptables-save | awk '!visited[$0]++' | iptables-restore
+iptables-save | awk '/^COMMIT$/ { delete x; }; !x[$0]++' | uniq | iptables-restore
 
 {% if firewall_enable_ipv6 %}
 # Configure IPv6 if ip6tables is present.
@@ -136,7 +136,7 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
   # Drop all other traffic.
   ip6tables -A INPUT -j DROP
 
-  ip6tables-save | awk '!visited[$0]++' | ip6tables-restore
+  ip6tables-save | awk '/^COMMIT$/ { delete x; }; !x[$0]++' | uniq | ip6tables-restore
 
 fi
 {% endif %}
