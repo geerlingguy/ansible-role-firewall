@@ -25,6 +25,10 @@ Controls the state of the firewall service; whether it should be running (`firew
 
 Whether to flush all rules and chains whenever the firewall is restarted. Set this to `false` if there are other processes managing iptables (e.g. Docker).
 
+    firewall_flush_commands: ['/sbin/iptables -F']
+
+Commands to execute on service exit or initialization. May be used to reset the default policy of each chain if there is a risk that it's different from ACCEPT.
+
     firewall_allowed_tcp_ports:
       - "22"
       - "80"

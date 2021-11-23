@@ -33,7 +33,7 @@ iptables -P OUTPUT ACCEPT
 # Remove all rules and chains.
 iptables -t nat -F
 iptables -t mangle -F
-iptables -F
+{{ firewall_flush_commands | join ('\n') }}
 iptables -X
 {% endif %}
 

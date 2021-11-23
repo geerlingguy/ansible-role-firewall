@@ -23,7 +23,7 @@ case "$1" in
     ;;
   stop)
     echo "Stopping firewall."
-    iptables -F
+    {{ firewall_flush_commands | join ('\n') | indent(width=4, first=False) }}
     if [ -x "$(which ip6tables 2>/dev/null)" ]; then
         ip6tables -F
     fi

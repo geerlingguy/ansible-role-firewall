@@ -3,9 +3,9 @@
   package: name=iptables state=present
 
 - name: Flush iptables the first time playbook runs.
-  command: >
-    iptables -F
-    creates=/etc/firewall.bash
+  command:
+    cmd: "{{ firewall_flush_commands | join ('; ') }}"
+    creates: /etc/firewall.bash
 
 - name: Copy firewall script into place.
   template:
@@ -33,6 +33,9 @@
     owner: root
     group: root
     mode: 0644
+  notify:
+    - systemd daemon-reload
+    - restart firewall
   when: "ansible_service_mgr == 'systemd'"
 
 - name: Configure the firewall service.

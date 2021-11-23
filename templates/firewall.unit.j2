@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=oneshot
 ExecStart=/etc/firewall.bash
-ExecStop=/sbin/iptables -F
+ExecStop={{ firewall_flush_commands | join (' ; ') }}
 RemainAfterExit=yes
 
 [Install]

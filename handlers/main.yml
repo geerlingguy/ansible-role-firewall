@@ -1,4 +1,8 @@
 ---
+- name: systemd daemon-reload
+  systemd: daemon_reload=yes
+  when: ansible_service_mgr == 'systemd'
+
 - name: restart firewall
   service: name=firewall state=restarted
   when: firewall_state != 'stopped'
