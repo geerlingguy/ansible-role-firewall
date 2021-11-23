@@ -23,6 +23,7 @@
     owner: root
     group: root
     mode: 0755
+  notify: restart firewall
   when: "ansible_service_mgr != 'systemd'"
 
 - name: Copy firewall systemd unit file into place (for systemd systems).
