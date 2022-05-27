@@ -31,7 +31,7 @@ Whether to flush all rules and chains whenever the firewall is restarted. Set th
       ...
     firewall_allowed_udp_ports: []
     
-Don't forget to whitelist `UDP 5353` for [mDNS](https://en.wikipedia.org/wiki/Multicast_DNS) to resolve local hostnames like `raspberrypi.local`.
+Don't forget to whitelist `UDP 5353` for [mDNS](https://wikipedia.org/wiki/Multicast_DNS) to resolve local hostnames like `raspberrypi.local`.
 
 A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
