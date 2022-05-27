@@ -38,6 +38,8 @@ A list of TCP or UDP ports (respectively) to open to incoming traffic.
       - { src: "80", dest: "8080" }
     firewall_forwarded_udp_ports: []
 
+If you are using this role for Raspberry Pi, don't forget to whitelist `UDP 5353` otherwise mDNS can't work properly and you can't use `raspberrypi.local`.
+
 Forward `src` port to `dest` port, either TCP or UDP (respectively).
 
     firewall_additional_rules: []
