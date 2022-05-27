@@ -30,6 +30,8 @@ Whether to flush all rules and chains whenever the firewall is restarted. Set th
       - "80"
       ...
     firewall_allowed_udp_ports: []
+    
+Don't forget to whitelist `UDP 5353` for [mDNS](https://en.wikipedia.org/wiki/Multicast_DNS) to resolve local hostnames like `raspberrypi.local`.
 
 A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
@@ -37,8 +39,6 @@ A list of TCP or UDP ports (respectively) to open to incoming traffic.
       - { src: "22", dest: "2222" }
       - { src: "80", dest: "8080" }
     firewall_forwarded_udp_ports: []
-
-Don't forget to whitelist `UDP 5353` for [mDNS](https://en.wikipedia.org/wiki/Multicast_DNS) to resolve local hostnames like `raspberrypi.local`.
 
 Forward `src` port to `dest` port, either TCP or UDP (respectively).
 
