@@ -1,4 +1,9 @@
 ---
+- name: Ensure apt cache is current.
+  apt:
+    cache_valid_time: 3600
+  when: "ansible_os_family == 'Debian'"
+
 - name: Ensure iptables is present.
   package: name=iptables state=present
 
