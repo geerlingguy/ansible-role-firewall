@@ -1,6 +1,6 @@
 # Ansible Role: Firewall (iptables)
 
-[![Build Status](https://travis-ci.org/geerlingguy/ansible-role-firewall.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-role-firewall)
+[![CI](https://github.com/geerlingguy/ansible-role-firewall/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-firewall/actions?query=workflow%3ACI)
 
 Installs an iptables-based firewall for Linux. Supports both IPv4 (`iptables`) and IPv6 (`ip6tables`).
 
@@ -15,6 +15,15 @@ None.
 ## Role Variables
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
+
+    firewall_state: started
+    firewall_enabled_at_boot: true
+
+Controls the state of the firewall service; whether it should be running (`firewall_state`) and/or enabled on system boot (`firewall_enabled_at_boot`).
+
+    firewall_flush_rules_and_chains: true
+
+Whether to flush all rules and chains whenever the firewall is restarted. Set this to `false` if there are other processes managing iptables (e.g. Docker).
 
     firewall_allowed_tcp_ports:
       - "22"
@@ -54,6 +63,10 @@ Whether to log dropped packets to syslog (messages will be prefixed with "Droppe
     firewall_disable_ufw: false
 
 Set to `true` to disable firewalld (installed by default on RHEL/CentOS) or ufw (installed by default on Ubuntu), respectively.
+
+    firewall_enable_ipv6: true
+
+Set to `false` to disable configuration of ip6tables (for example, if your `GRUB_CMDLINE_LINUX` contains `ipv6.disable=1`).
 
 ## Dependencies
 
