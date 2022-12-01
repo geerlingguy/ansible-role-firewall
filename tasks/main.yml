@@ -16,6 +16,31 @@
     mode: 0744
   notify: restart firewall
 
+- name: Copy firewall script into place.
+  template:
+    src: firewall.bash.j2
+    dest: /etc/firewall.bash
+    owner: root
+    group: root
+    mode: 0744
+  notify: restart firewall
+
+- name: Create firewall.accept.d/
+  file:
+    path: /etc/firewall.accept.d
+    owner: root
+    group: root
+    mode: 0744
+    state: directory
+
+- name: Copy firewall ACCEPT script into place.
+  template:
+    src: firewall.accept.j2
+    dest: /etc/firewall.accept.d/default.bash
+    owner: root
+    group: root
+    mode: 0744
+
 - name: Copy firewall init script into place.
   template:
     src: firewall.init.j2

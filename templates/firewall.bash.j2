@@ -52,13 +52,10 @@ iptables -t nat -I OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIR
 {% endfor %}
 
 # Open ports.
-{# Add a rule for each open port #}
-{% for port in firewall_allowed_tcp_ports %}
-iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
-{% endfor %}
-{% for port in firewall_allowed_udp_ports %}
-iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
-{% endfor %}
+for file in /etc/firewall.accept.d/*;
+do
+  source $file
+done
 
 # Accept icmp ping requests.
 iptables -A INPUT -p icmp -j ACCEPT
