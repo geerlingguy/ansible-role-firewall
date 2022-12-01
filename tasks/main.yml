@@ -25,21 +25,30 @@
     mode: 0744
   notify: restart firewall
 
-- name: Create firewall.accept.d/
+- name: Create firewall.bash.d/
   file:
-    path: /etc/firewall.accept.d
+    path: /etc/firewall.bash.d
     owner: root
     group: root
     mode: 0744
     state: directory
 
-- name: Copy firewall ACCEPT script into place.
+- name: Copy firewall IPv4 GROUP script into place.
   template:
-    src: firewall.accept.j2
-    dest: /etc/firewall.accept.d/default.bash
+    src: firewall.group.j2
+    dest: /etc/firewall.bash.d/ipv4.{{firewall_group}}.bash
     owner: root
     group: root
     mode: 0744
+
+- name: Copy firewall IPv6 GROUP script into place.
+  template:
+    src: firewall.group.ipv6.j2
+    dest: /etc/firewall.bash.d/ipv6.{{firewall_group}}.bash
+    owner: root
+    group: root
+    mode: 0744
+  when: firewall_enable_ipv6
 
 - name: Copy firewall init script into place.
   template:

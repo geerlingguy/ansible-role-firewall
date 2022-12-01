@@ -1,4 +1,5 @@
 ---
+firewall_group: default
 firewall_state: started
 firewall_enabled_at_boot: true
 

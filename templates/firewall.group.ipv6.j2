@@ -1,0 +1,11 @@
+{# Add a rule for each open port #}
+{% for port in firewall_allowed_tcp_ports %}
+  ip6tables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
+{% endfor %}
+{% for port in firewall_allowed_udp_ports %}
+  ip6tables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
+{% endfor %}
+
+{% for rule in firewall_ip6_additional_rules %}
+  {{ rule }}
+{% endfor %}

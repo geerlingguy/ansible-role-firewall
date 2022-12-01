@@ -31,6 +31,14 @@ Whether to flush all rules and chains whenever the firewall is restarted. Set th
       ...
     firewall_allowed_udp_ports: []
 
+In order to open more ports later, you can specify `firewall_group` to create
+new set of rules that will not override the default rules.
+
+    firewall_group: myapp
+    firewall_allowed_tcp_ports:
+      - "1234"
+    firewall_allowed_udp_ports: []
+
 A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
     firewall_forwarded_tcp_ports:
