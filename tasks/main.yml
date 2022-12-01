@@ -16,15 +16,6 @@
     mode: 0744
   notify: restart firewall
 
-- name: Copy firewall script into place.
-  template:
-    src: firewall.bash.j2
-    dest: /etc/firewall.bash
-    owner: root
-    group: root
-    mode: 0744
-  notify: restart firewall
-
 - name: Create firewall.bash.d/
   file:
     path: /etc/firewall.bash.d
