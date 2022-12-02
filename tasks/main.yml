@@ -14,7 +14,6 @@
     owner: root
     group: root
     mode: 0744
-  notify: restart firewall
 
 - name: Create firewall.bash.d/
   file:
@@ -31,6 +30,8 @@
     owner: root
     group: root
     mode: 0744
+  when: firewall_remove is falsy
+  notify: restart firewall
 
 - name: Copy firewall IPv6 GROUP script into place.
   template:
@@ -39,7 +40,22 @@
     owner: root
     group: root
     mode: 0744
-  when: firewall_enable_ipv6
+  when: firewall_remove is falsy and firewall_enable_ipv6
+  notify: restart firewall
+
+- name: Remove IPv4 GROUP script.
+  file:
+    state: absent
+    path: /etc/firewall.bash.d/ipv4.{{firewall_group}}.bash
+  when: firewall_remove
+  notify: restart firewall
+
+- name: Remove IPv6 GROUP script.
+  file:
+    state: absent
+    path: /etc/firewall.bash.d/ipv6.{{firewall_group}}.bash
+  when: firewall_remove
+  notify: restart firewall
 
 - name: Copy firewall init script into place.
   template:
