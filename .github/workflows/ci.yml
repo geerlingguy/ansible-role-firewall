@@ -42,7 +42,7 @@ jobs:
       matrix:
         distro:
           - rockylinux8
-          - ubuntu2804
+          - ubuntu2004
           - debian10
 
     steps:
