@@ -51,13 +51,22 @@ iptables -t nat -I PREROUTING -p udp --dport {{ forwarded_port.src }} -j REDIREC
 iptables -t nat -I OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
 {% endfor %}
 
-# Open ports.
-{# Add a rule for each open port #}
-{% for port in firewall_allowed_tcp_ports %}
-iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
+# Configure incoming ports
+{# Add a rule for each port #}
+{% for port in firewall_tcp_ports %}
+iptables -A INPUT -p tcp -m tcp --dport {{ port.port | default(port) }} -j {{ port.policy | default("ACCEPT") }}
 {% endfor %}
-{% for port in firewall_allowed_udp_ports %}
-iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
+{% for port in firewall_udp_ports %}
+iptables -A INPUT -p udp -m udp --dport {{ port.port | default(port) }} -j {{ port.policy | default("ACCEPT") }}
+{% endfor %}
+
+# Configure outgoing ports.
+{# Add a rule for each port #}
+{% for port in firewall_output_tcp_ports %}
+iptables -A OUTPUT -p tcp -m tcp --dport {{ port.port | default(port) }} -j {{ port.policy | default("DROP") }}
+{% endfor %}
+{% for port in firewall_output_udp_ports %}
+iptables -A OUTPUT -p udp -m udp --dport {{ port.port | default(port) }} -j {{ port.policy | default("DROP") }}
 {% endfor %}
 
 # Accept icmp ping requests.
@@ -74,6 +83,7 @@ iptables -A INPUT -p udp --sport 123 -j ACCEPT
 
 # Allow established connections:
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # Log EVERYTHING (ONLY for Debug).
 # iptables -A INPUT -j LOG
@@ -83,8 +93,9 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -m limit --limit 15/minute -j LOG --log-level 7 --log-prefix "Dropped by firewall: "
 {% endif %}
 
-# Drop all other traffic.
-iptables -A INPUT -j DROP
+# Apply default policy to all other traffic
+iptables -A INPUT -j {{ firewall_input_default_policy }}
+iptables -A OUTPUT -j {{ firewall_output_default_policy }}
 
 {% if firewall_enable_ipv6 %}
 # Configure IPv6 if ip6tables is present.
@@ -99,13 +110,22 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
   # Accept traffic from loopback interface (localhost).
   ip6tables -A INPUT -i lo -j ACCEPT
 
-  # Open ports.
-{# Add a rule for each open port #}
-{% for port in firewall_allowed_tcp_ports %}
-  ip6tables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
+  # Configure incoming ports
+{# Add a rule for each port #}
+{% for port in firewall_tcp_ports %}
+  ip6tables -A INPUT -p tcp -m tcp --dport {{ port.port | default(port) }} -j {{ port.policy | default("ACCEPT") }}
 {% endfor %}
-{% for port in firewall_allowed_udp_ports %}
-  ip6tables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
+{% for port in firewall_udp_ports %}
+  ip6tables -A INPUT -p udp -m udp --dport {{ port.port | default(port) }} -j {{ port.policy | default("ACCEPT") }}
+{% endfor %}
+
+  # Configure outgoing ports.
+{# Add a rule for each port #}
+{% for port in firewall_output_tcp_ports %}
+  ip6tables -A OUTPUT -p tcp -m tcp --dport {{ port.port | default(port) }} -j {{ port.policy | default("DROP") }}
+{% endfor %}
+{% for port in firewall_output_udp_ports %}
+  ip6tables -A OUTPUT -p udp -m udp --dport {{ port.port | default(port) }} -j {{ port.policy | default("DROP") }}
 {% endfor %}
 
   # Accept icmp ping requests.
@@ -122,6 +142,7 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 
   # Allow established connections:
   ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  ip6tables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
   # Log EVERYTHING (ONLY for Debug).
   # ip6tables -A INPUT -j LOG
@@ -132,7 +153,8 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 {% endif %}
 
   # Drop all other traffic.
-  ip6tables -A INPUT -j DROP
+  ip6tables -A INPUT -j {{ firewall_input_default_policy }}
+  ip6tables -A OUTPUT -j {{ firewall_output_default_policy }}
 
 fi
 {% endif %}

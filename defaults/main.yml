@@ -4,14 +4,15 @@ firewall_enabled_at_boot: true
 
 firewall_flush_rules_and_chains: true
 
-firewall_allowed_tcp_ports:
-  - "22"
-  - "25"
-  - "80"
-  - "443"
+firewall_input_default_policy: "DROP"
+firewall_output_default_policy: "ACCEPT"
+
+firewall_allowed_tcp_ports: []
 firewall_allowed_udp_ports: []
 firewall_forwarded_tcp_ports: []
 firewall_forwarded_udp_ports: []
+firewall_output_tcp_ports: []
+firewall_output_udp_ports: []
 firewall_additional_rules: []
 firewall_enable_ipv6: true
 firewall_ip6_additional_rules: []
@@ -20,3 +21,7 @@ firewall_log_dropped_packets: true
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
 firewall_disable_ufw: false
+
+# For backwards compatibility
+firewall_tcp_ports: "{{ firewall_allowed_tcp_ports | warn_tcp | default('[22, 25, 80, 443]', true) }}"
+firewall_udp_ports: "{{ firewall_allowed_udp_ports | warn_udp | default('[]', true) }}"
