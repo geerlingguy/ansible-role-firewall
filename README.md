@@ -25,13 +25,18 @@ Controls the state of the firewall service; whether it should be running (`firew
 
 Whether to flush all rules and chains whenever the firewall is restarted. Set this to `false` if there are other processes managing iptables (e.g. Docker).
 
-    firewall_allowed_tcp_ports:
+    firewall_tcp_ports:
       - "22"
-      - "80"
+      - { port: "80", policy: "DROP" }
       ...
-    firewall_allowed_udp_ports: []
+    firewall_udp_ports: []
 
-A list of TCP or UDP ports (respectively) to open to incoming traffic.
+A list of TCP or UDP ports (respectively) to add rules for for incoming traffic. If a port number is provided, a rule is added to `ACCEPT` traffic on that port. A dict containing a port and a policy may also be provided. TCP ports 22, 25, 80 and 443 are opened by default.
+
+    firewall_output_tcp_ports: []
+    firewall_output_udp_ports: []
+
+A list of TCP or UDP ports (respectively) to add rules for for outgoing traffic. A port or a dict may be provided like for incoming traffic. If just a port is provided, a rule to `DROP` traffic is added.
 
     firewall_forwarded_tcp_ports:
       - { src: "22", dest: "2222" }
@@ -48,7 +53,7 @@ Any additional (custom) rules to be added to the firewall (in the same format yo
     # Allow only the IP 167.89.89.18 to access port 4949 (Munin).
     firewall_additional_rules:
       - "iptables -A INPUT -p tcp --dport 4949 -s 167.89.89.18 -j ACCEPT"
-    
+
     # Allow only the IP 214.192.48.21 to access port 3306 (MySQL).
     firewall_additional_rules:
       - "iptables -A INPUT -p tcp --dport 3306 -s 214.192.48.21 -j ACCEPT"
@@ -82,14 +87,13 @@ None.
 
 *Inside `vars/main.yml`*:
 
-    firewall_allowed_tcp_ports:
+    firewall_tcp_ports:
       - "22"
       - "25"
       - "80"
 
 ## TODO
 
-  - Make outgoing ports more configurable.
   - Make other firewall features (like logging) configurable.
 
 ## License
