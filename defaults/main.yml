@@ -1,4 +1,5 @@
 ---
+firewall_bash_template: firewall.bash.j2
 firewall_state: started
 firewall_enabled_at_boot: true
 
