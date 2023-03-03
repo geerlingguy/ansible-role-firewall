@@ -99,6 +99,7 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 
   # Accept traffic from loopback interface (localhost).
   ip6tables -A INPUT -i lo -j ACCEPT
+  ip6tables -A INPUT '!' -i lo -s ::1/128 -j REJECT
 
   # Open ports.
 {# Add a rule for each open port #}
