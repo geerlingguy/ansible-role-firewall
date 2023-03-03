@@ -39,6 +39,7 @@ iptables -X
 
 # Accept traffic from loopback interface (localhost).
 iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT '!' -i lo -s 127.0.0.0/8 -j REJECT
 
 # Forwarded ports.
 {# Add a rule for each forwarded port #}
