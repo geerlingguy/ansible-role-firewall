@@ -1,85 +1,12 @@
 ---
-- name: Ensure iptables is present.
-  package: name=iptables state=present
+- name: Prepare firewall on first run
+  import_tasks: prepare.yml
+  when: firewall_group == "default"
 
-- name: Flush iptables the first time playbook runs.
-  command: >
-    iptables -F
-    creates=/etc/firewall.bash
-
-- name: Copy firewall script into place.
-  template:
-    src: firewall.bash.j2
-    dest: /etc/firewall.bash
-    owner: root
-    group: root
-    mode: 0744
-
-- name: Create firewall.bash.d/
-  file:
-    path: /etc/firewall.bash.d
-    owner: root
-    group: root
-    mode: 0744
-    state: directory
-
-- name: Copy firewall IPv4 GROUP script into place.
-  template:
-    src: firewall.group.j2
-    dest: /etc/firewall.bash.d/ipv4.{{firewall_group}}.bash
-    owner: root
-    group: root
-    mode: 0744
+- name: Install firewall profile {{firewall_group}}
+  import_tasks: install.yml
   when: firewall_remove is falsy
-  notify: restart firewall
 
-- name: Copy firewall IPv6 GROUP script into place.
-  template:
-    src: firewall.group.ipv6.j2
-    dest: /etc/firewall.bash.d/ipv6.{{firewall_group}}.bash
-    owner: root
-    group: root
-    mode: 0744
-  when: firewall_remove is falsy and firewall_enable_ipv6
-  notify: restart firewall
-
-- name: Remove IPv4 GROUP script.
-  file:
-    state: absent
-    path: /etc/firewall.bash.d/ipv4.{{firewall_group}}.bash
-  when: firewall_remove
-  notify: restart firewall
-
-- name: Remove IPv6 GROUP script.
-  file:
-    state: absent
-    path: /etc/firewall.bash.d/ipv6.{{firewall_group}}.bash
-  when: firewall_remove
-  notify: restart firewall
-
-- name: Copy firewall init script into place.
-  template:
-    src: firewall.init.j2
-    dest: /etc/init.d/firewall
-    owner: root
-    group: root
-    mode: 0755
-  when: "ansible_service_mgr != 'systemd'"
-
-- name: Copy firewall systemd unit file into place (for systemd systems).
-  template:
-    src: firewall.unit.j2
-    dest: /etc/systemd/system/firewall.service
-    owner: root
-    group: root
-    mode: 0644
-  when: "ansible_service_mgr == 'systemd'"
-
-- name: Configure the firewall service.
-  service:
-    name: firewall
-    state: "{{ firewall_state }}"
-    enabled: "{{ firewall_enabled_at_boot }}"
-
-- import_tasks: disable-other-firewalls.yml
-  when: firewall_disable_firewalld or firewall_disable_ufw
+- name: Remove firewall profile {{firewall_group}}
+  import_tasks: remove.yml
+  when: firewall_remove is truthy

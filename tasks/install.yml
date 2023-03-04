@@ -1,0 +1,19 @@
+
+- name: Create firewall IPv4 {{firewall_group}} profile.
+  template:
+    src: firewall.group.j2
+    dest: /etc/firewall.bash.d/ipv4.{{firewall_group}}.bash
+    owner: root
+    group: root
+    mode: 0744
+  notify: restart firewall
+
+- name: Create firewall IPv6 {{firewall_group}} profile.
+  template:
+    src: firewall.group.ipv6.j2
+    dest: /etc/firewall.bash.d/ipv6.{{firewall_group}}.bash
+    owner: root
+    group: root
+    mode: 0744
+  when: firewall_enable_ipv6
+  notify: restart firewall
