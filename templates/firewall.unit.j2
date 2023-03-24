@@ -1,6 +1,7 @@
 [Unit]
 Description=Firewall
 After=syslog.target network.target
+Before=docker.service
 
 [Service]
 Type=oneshot

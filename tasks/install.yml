@@ -6,7 +6,9 @@
     owner: root
     group: root
     mode: 0744
-  notify: restart firewall
+  notify:
+  - Restart firewall
+  - Reload docker
 
 - name: Create firewall IPv6 {{firewall_group}} profile.
   template:
@@ -16,4 +18,3 @@
     group: root
     mode: 0744
   when: firewall_enable_ipv6
-  notify: restart firewall

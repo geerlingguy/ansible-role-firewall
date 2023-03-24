@@ -1,3 +1,15 @@
 ---
-- name: restart firewall
+- name: Restart firewall
   service: name=firewall state=restarted
+
+# We need to reload docker so it places all its iptables rules back since the
+# firewall restart blindly flushes all firewall chains (even DOCKER chains)
+# We must have created a dummy shell command because only there notify works
+# Unfortunately ansible does not allow to define the order of handlers from
+# different roles therefore we need to put the docker reload here because
+# the order of handlers is only guaranteed to follow the orfer of how they
+# are defined
+- name: Reload docker
+  service: name=docker state=reloaded
+  ignore_errors: true
+  when: firewall_reload_docker is truthy

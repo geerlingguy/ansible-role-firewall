@@ -24,3 +24,6 @@ firewall_disable_ufw: false
 
 # If you need to remove old GROUP rules, set this true and keep the firewall_group
 firewall_remove: false
+
+# handler to reload docker once firewall is flushed
+firewall_reload_docker: false
