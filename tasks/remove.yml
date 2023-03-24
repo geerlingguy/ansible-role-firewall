@@ -5,7 +5,7 @@
     path: /etc/firewall.bash.d/ipv4.{{firewall_group}}.bash
   notify:
   - Restart firewall
-  - Reload docker
+  - Restart docker
 
 - name: Remove firewall IPv6 {{firewall_group}} profile.
   file:
@@ -13,4 +13,4 @@
     path: /etc/firewall.bash.d/ipv6.{{firewall_group}}.bash
   notify:
   - Restart firewall
-  - Reload docker
+  - Restart docker

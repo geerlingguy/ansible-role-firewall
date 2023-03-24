@@ -26,4 +26,4 @@ firewall_disable_ufw: false
 firewall_remove: false
 
 # handler to reload docker once firewall is flushed
-firewall_reload_docker: false
+firewall_restart_docker: false

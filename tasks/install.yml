@@ -8,7 +8,7 @@
     mode: 0744
   notify:
   - Restart firewall
-  - Reload docker
+  - Restart docker
 
 - name: Create firewall IPv6 {{firewall_group}} profile.
   template:
