@@ -1,12 +1,12 @@
 ---
 - name: Prepare firewall on first run
-  import_tasks: prepare.yml
+  include_tasks: prepare.yml
   when: firewall_group == "default"
 
 - name: Install firewall profile {{firewall_group}}
-  import_tasks: install.yml
+  include_tasks: install.yml
   when: firewall_remove is falsy
 
 - name: Remove firewall profile {{firewall_group}}
-  import_tasks: remove.yml
+  include_tasks: remove.yml
   when: firewall_remove is truthy
