@@ -3,9 +3,11 @@
   package: name=iptables state=present
 
 - name: Flush iptables the first time playbook runs.
-  command: >
-    iptables -F
-    creates=/etc/firewall.bash
+  ansible.builtin.shell:
+    cmd: iptables -F
+    creates: /etc/firewall.bash
+  become: true
+  when: firewall_flush_rules_and_chains
 
 - name: Copy firewall script into place.
   template:
