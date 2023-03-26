@@ -6,7 +6,9 @@ Before=docker.service
 [Service]
 Type=oneshot
 ExecStart=/etc/firewall.bash
+{% if firewall_flush_rules_and_chains %}
 ExecStop=/sbin/iptables -F
+{% endif %}
 RemainAfterExit=yes
 
 [Install]

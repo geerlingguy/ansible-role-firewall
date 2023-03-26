@@ -23,10 +23,12 @@ case "$1" in
     ;;
   stop)
     echo "Stopping firewall."
+    {% if firewall_flush_rules_and_chains %}
     iptables -F
     if [ -x "$(which ip6tables 2>/dev/null)" ]; then
         ip6tables -F
     fi
+    {% endif %}
     ;;
   restart)
     echo "Restarting firewall."
