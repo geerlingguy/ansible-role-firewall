@@ -10,11 +10,9 @@ firewall_flush_rules_and_chains: true
 firewall_flush_filter_chains: "{{[] + ([''] if firewall_flush_rules_and_chains else [])}}"
 firewall_flush_nat_chains: "{{[] + ([''] if firewall_flush_rules_and_chains else [])}}"
 firewall_flush_mangle_chains: "{{[] + ([''] if firewall_flush_rules_and_chains else [])}}"
-firewall_ip6_flush_filter_chains: "{{[] + ([''] if firewall_flush_rules_and_chains else [])}}"
 
 # List of chains to delete, empty string means "all", empty list means "none"
 firewall_delete_chains: "{{[] + ([''] if firewall_flush_rules_and_chains else [])}}"
-firewall_ip6_delete_chains: "{{[] + ([''] if firewall_flush_rules_and_chains else [])}}"
 
 firewall_allowed_tcp_ports:
   - "22"

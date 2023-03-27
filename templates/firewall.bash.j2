@@ -99,12 +99,6 @@ iptables -A INPUT -j DROP
 if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 
   # Remove rules
-  {% for chain in firewall_flush_nat_chains %}
-  ip6tables -t nat -F {{ chain }}
-  {% endfor %}
-  {% for chain in firewall_flush_mangle_chains %}
-  ip6tables -t mangle -F {{ chain }}
-  {% endfor %}
   {% for chain in firewall_flush_filter_chains %}
   ip6tables -F {{ chain }}
   {% endfor %}
