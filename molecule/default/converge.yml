@@ -8,7 +8,7 @@
     firewall_enable_ipv6: false
 
     # Added for a test.
-    firewall_allowed_tcp_ports:
+    firewall_allowed_incoming_tcp_ports:
       - "9123"
 
   pre_tasks:

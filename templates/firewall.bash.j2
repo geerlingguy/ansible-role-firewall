@@ -53,10 +53,10 @@ iptables -t nat -I OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIR
 
 # Open ports.
 {# Add a rule for each open port #}
-{% for port in firewall_allowed_tcp_ports %}
+{% for port in firewall_allowed_incoming_tcp_ports %}
 iptables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
 {% endfor %}
-{% for port in firewall_allowed_udp_ports %}
+{% for port in firewall_allowed_incoming_udp_ports %}
 iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
 {% endfor %}
 
@@ -101,10 +101,10 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 
   # Open ports.
 {# Add a rule for each open port #}
-{% for port in firewall_allowed_tcp_ports %}
+{% for port in firewall_allowed_incoming_tcp_ports %}
   ip6tables -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
 {% endfor %}
-{% for port in firewall_allowed_udp_ports %}
+{% for port in firewall_allowed_incoming_udp_ports %}
   ip6tables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
 {% endfor %}
 

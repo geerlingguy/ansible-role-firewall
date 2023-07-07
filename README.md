@@ -25,11 +25,11 @@ Controls the state of the firewall service; whether it should be running (`firew
 
 Whether to flush all rules and chains whenever the firewall is restarted. Set this to `false` if there are other processes managing iptables (e.g. Docker).
 
-    firewall_allowed_tcp_ports:
+    firewall_allowed_incoming_tcp_ports:
       - "22"
       - "80"
       ...
-    firewall_allowed_udp_ports: []
+    firewall_allowed_incoming_udp_ports: []
 
 A list of TCP or UDP ports (respectively) to open to incoming traffic.
 
@@ -82,7 +82,7 @@ None.
 
 *Inside `vars/main.yml`*:
 
-    firewall_allowed_tcp_ports:
+    firewall_allowed_incoming_tcp_ports:
       - "22"
       - "25"
       - "80"
