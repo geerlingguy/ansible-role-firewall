@@ -4,6 +4,12 @@ firewall_enabled_at_boot: true
 
 firewall_flush_rules_and_chains: true
 
+# Flush rules for INPUT chain only
+# (if 'firewall_flush_rules_and_chains' is 'false')
+firewall_flush_rules_input_nat: false
+firewall_flush_rules_input_mangle: false
+firewall_flush_rules_input_filter: false
+
 firewall_allowed_tcp_ports:
   - "22"
   - "25"
