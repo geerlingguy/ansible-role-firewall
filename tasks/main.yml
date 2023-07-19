@@ -8,12 +8,6 @@
     creates=/etc/firewall.bash
   when: firewall_flush_rules_and_chains
 
-- name: Flush iptables INPUT filter the first time playbook runs.
-  command: >
-    iptables -F INPUT
-    creates=/etc/firewall.bash
-  when: not firewall_flush_rules_and_chains and firewall_flush_rules_input_filter
-
 - name: Copy firewall script into place.
   template:
     src: firewall.bash.j2
