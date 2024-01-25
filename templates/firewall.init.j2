@@ -23,9 +23,19 @@ case "$1" in
     ;;
   stop)
     echo "Stopping firewall."
+    {% if firewall_flush_rules_and_chains %}
     iptables -F
+    {% endif %}
+    {% if not firewall_flush_rules_and_chains and firewall_flush_rules_input_filter %}
+    iptables -F INPUT
+    {% endif %}
     if [ -x "$(which ip6tables 2>/dev/null)" ]; then
+        {% if firewall_flush_rules_and_chains %}
         ip6tables -F
+        {% endif %}
+        {% if not firewall_flush_rules_and_chains and firewall_flush_rules_input_filter %}
+        ip6tables -F INPUT
+        {% endif %}
     fi
     ;;
   restart)

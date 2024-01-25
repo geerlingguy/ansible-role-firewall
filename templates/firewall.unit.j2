@@ -5,7 +5,12 @@ After=syslog.target network.target
 [Service]
 Type=oneshot
 ExecStart=/etc/firewall.bash
+{% if firewall_flush_rules_and_chains %}
 ExecStop=/sbin/iptables -F
+{% endif %}
+{% if not firewall_flush_rules_and_chains and firewall_flush_rules_input_filter %}
+ExecStop=/sbin/iptables -F INPUT
+{% endif %}
 RemainAfterExit=yes
 
 [Install]

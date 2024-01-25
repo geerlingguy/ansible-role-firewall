@@ -37,6 +37,19 @@ iptables -F
 iptables -X
 {% endif %}
 
+{% if not firewall_flush_rules_and_chains %}
+# Remove rules in the INPUT chain
+{% if firewall_flush_rules_input_nat %}
+iptables -t nat -F INPUT
+{% endif %}
+{% if firewall_flush_rules_input_mangle -%}
+iptables -t mangle -F INPUT
+{% endif %}
+{% if firewall_flush_rules_input_filter -%}
+iptables -t filter -F INPUT
+{% endif %}
+{% endif %}
+
 # Accept traffic from loopback interface (localhost).
 iptables -A INPUT -i lo -j ACCEPT
 

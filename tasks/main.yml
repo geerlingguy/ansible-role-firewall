@@ -6,6 +6,7 @@
   command: >
     iptables -F
     creates=/etc/firewall.bash
+  when: firewall_flush_rules_and_chains
 
 - name: Copy firewall script into place.
   template:

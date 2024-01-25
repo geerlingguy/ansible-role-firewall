@@ -25,6 +25,12 @@ Controls the state of the firewall service; whether it should be running (`firew
 
 Whether to flush all rules and chains whenever the firewall is restarted. Set this to `false` if there are other processes managing iptables (e.g. Docker).
 
+    firewall_flush_rules_input_nat: false
+    firewall_flush_rules_input_mangle: false
+    firewall_flush_rules_input_filter: false
+
+Whether to flush the INPUT chains in the `nat`, `mangle`, and `filter` tables, respectively, without clearing other chains. These options are only effective when `firewall_flush_rules_and_chains` is set to `false`.
+
     firewall_allowed_tcp_ports:
       - "22"
       - "80"
