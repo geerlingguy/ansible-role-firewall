@@ -8,6 +8,8 @@
     creates=/etc/firewall.bash
 
 - name: Copy firewall script into place.
+  vars:
+    _firewall_wait: "{{ firewall_wait is number | ternary(' --wait ' + firewall_wait|string, firewall_wait | bool | ternary(' --wait', '')) }}"
   template:
     src: "{{ firewall_template | default(firewall_template)}}"
     dest: /etc/firewall.bash

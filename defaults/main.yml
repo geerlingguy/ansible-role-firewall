@@ -21,3 +21,7 @@ firewall_log_dropped_packets: true
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
 firewall_disable_ufw: false
+
+# Set to true to wait indefinitely or to a number to wait for that number of seconds
+# to aquire the xtables lock
+firewall_wait: false
