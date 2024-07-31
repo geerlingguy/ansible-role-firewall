@@ -2,11 +2,6 @@
 - name: Ensure iptables is present.
   package: name=iptables state=present
 
-- name: Flush iptables the first time playbook runs.
-  command: >
-    iptables -F
-    creates=/etc/firewall.bash
-
 - name: Copy firewall script into place.
   template:
     src: "{{ firewall_template | default(firewall_template)}}"
