@@ -61,7 +61,7 @@ iptables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
 {% endfor %}
 
 # Accept icmp ping requests.
-iptables -A INPUT -p icmp -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
 
 # Allow NTP traffic for time synchronization.
 iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
@@ -109,7 +109,7 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
 {% endfor %}
 
   # Accept icmp ping requests.
-  ip6tables -A INPUT -p icmpv6 -j ACCEPT
+  ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-request -j ACCEPT
 
   # Allow NTP traffic for time synchronization.
   ip6tables -A OUTPUT -p udp --dport 123 -j ACCEPT
