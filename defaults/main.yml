@@ -18,6 +18,22 @@ firewall_enable_ipv6: true
 firewall_ip6_additional_rules: []
 firewall_log_dropped_packets: true
 
+# List of chains to flush in each table, empty string means "all", empty list means "none"
+firewall_flush_filter_chains:
+  - ""
+firewall_flush_nat_chains:
+  - ""
+firewall_flush_mangle_chains:
+  - ""
+firewall_ip6_flush_filter_chains:
+  - ""
+
+# List of chains to delete, empty string means "all", empty list means "none"
+firewall_delete_chains:
+  - ""
+firewall_ip6_delete_chains:
+  - ""
+
 # Set to true to ensure other firewall management software is disabled.
 firewall_disable_firewalld: false
 firewall_disable_ufw: false
