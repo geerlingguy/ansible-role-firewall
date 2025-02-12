@@ -108,8 +108,11 @@ if [ -x "$(which ip6tables 2>/dev/null)" ]; then
   ip6tables -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
 {% endfor %}
 
-  # Accept icmp ping requests.
-  ip6tables -A INPUT -p icmpv6 --icmpv6-type echo-request -j ACCEPT
+  # Accept ICMPv6 except redirects and node information queries.
+  # See RFC 4890 section 4.4
+  ip6tables -A INPUT -p icmpv6 --icmpv6-type redirect -j DROP
+  ip6tables -A INPUT -p icmpv6 --icmpv6-type 139 -j DROP
+  ip6tables -A INPUT -p icmpv6 -j ACCEPT
 
   # Allow NTP traffic for time synchronization.
   ip6tables -A OUTPUT -p udp --dport 123 -j ACCEPT
